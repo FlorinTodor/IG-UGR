@@ -345,6 +345,10 @@ Escena2::Escena2()
    objetos.push_back (new RejillaY(8,8));
    objetos.push_back (new MallaTorre(8));
   
+   // USO DE PLY
+   objetos.push_back(new MallaPLY("../plys/beethoven.ply"));
+   objetos.push_back(new MallaPLY("../plys/big_dodge.ply"));
+   objetos.push_back(new MallaRevolPLY("../plys/peon.ply", 50));
    // COMPLETAR: práctica 2: añadir resto de objetos a la escena 2
    //
    // Añadir sentencias 'push_back' adicionales para agregar al 

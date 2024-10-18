@@ -263,7 +263,7 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
 
    // COMPLETAR: práctica 2: leer archivo PLY e inicializar la malla
    // ..........................
-
+   LeerPLY(nombre_arch,vertices,triangulos);
 
    // COMPLETAR: práctica 4: invocar  a 'calcularNormales' para el cálculo de normales
    // .................
@@ -570,3 +570,7 @@ MallaTorre::MallaTorre(unsigned n) : MallaInd("MallaTorre"){
       triangulos.push_back({base + 3, base + 4, base + 7});
    }
 }
+
+
+   
+// ****************************************************************************

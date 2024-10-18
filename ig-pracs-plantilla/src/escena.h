@@ -128,4 +128,6 @@ class Escena2 : public Escena
 } ;
 
 
+
+
 #endif // ESCENA_H

@@ -108,7 +108,7 @@ Los pseudocódigos de los algoritmos de creación de mallas por revolución se e
    //Rellenamos la tabla de triangulos
 
    for (int i = 0; i < num_copias-1; i++) {
-      for (int j = 0; j < perfil.size() - 1; j++) {
+      for (int j = 0; j < perfil.size()-1; j++) {
          int k = i * perfil.size() + j;
 
          triangulos.push_back({k, k + perfil.size(), k + perfil.size() + 1});
@@ -135,6 +135,10 @@ MallaRevolPLY::MallaRevolPLY
    // Leer los vértice del perfil desde un PLY, después llamar a 'inicializar'
    // ...........................
 
+   /*
+   
+   El perfil inicial se puede leer de un fichero PLY cuyo contenido sólo ha de tener las coordenadas de los vértices
+   */
    std::vector<glm::vec3> perfil; // perfil del archivo ply
    LeerVerticesPLY(nombre_arch,perfil); // leer los vértices del perfil del archivo ply
    inicializar(perfil,nperfiles); // inicializar la malla de revolución

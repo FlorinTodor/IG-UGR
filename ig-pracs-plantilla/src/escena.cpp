@@ -41,6 +41,7 @@
 #include "camara.h"
 #include "materiales-luces.h"
 #include "escena.h"
+#include "modelo-jer.h"
 
 
 
@@ -364,8 +365,12 @@ Escena2::Escena2()
 // Añadir la implementación del constructor de la clase Escena3 para construir
 // los objetos que se indican en los guiones de las práctica 3
 // .......
-
-
+Escena3::Escena3()
+{
+   using namespace std ;
+   cout << "Creando objetos de la práctica 3." << endl ;
+   objetos.push_back( new Helicoptero());
+}
 
 // ----------------------------------------------------------------------------
 // COMPLETAR: práctica 4: escribir implementación del constructor de 'Escena4'. 

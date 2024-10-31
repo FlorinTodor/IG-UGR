@@ -66,6 +66,11 @@ class MallaRevolPLY : public MallaRevol
                   const unsigned nperfiles ) ;
 } ;
 
+class Ovalo3D : public MallaRevol
+{
+public:
+    Ovalo3D(int resolucion);
+};
 
 class Cilindro : public MallaRevol
 {

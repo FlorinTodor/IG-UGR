@@ -60,7 +60,7 @@ AplicacionIG::AplicacionIG()
 
    // escribe características de OpenGL en pantalla (ver 'ig-aux.cpp')
    InformeOpenGL() ; 
-
+ 
    // Crea el objeto Cauce (compila los 'shaders')
    cauce = new Cauce() ;
    assert( cauce != nullptr );

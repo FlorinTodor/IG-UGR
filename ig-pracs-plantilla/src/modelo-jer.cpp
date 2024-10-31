@@ -1,241 +1,113 @@
-#include "modelo-jer.h"
+// Nombre: Daniel, Apellidos: Alconchel Vázquez, Titulación: GIM.
+// email: danieeeld2@correo.ugr.es, DNI o pasaporte: 49617109Z
+
+#include "grafo-escena.h"
 #include "malla-ind.h"
-#include "malla-revol.h"
-using namespace glm;
+#include "ig-aux.h"
+#include "modelo-jer.h"
+#include <glm/gtx/transform.hpp>
+
 using namespace std;
+using namespace glm;
 
-Helicoptero::Helicoptero()
-{
-    ponerNombre("Helicoptero");
-    unsigned ind = agregar(translate(glm::vec3( 0.0, 1.0, 0.0) ));
-    agregar(new Cuerpo(rot_helice1));
-    agregar(translate( glm::vec3( 0.0, 0.0, -1) ));
-    agregar(new Cola(rot_helice2,rot_cola));
-    agregar(scale( glm::vec3( -0.3, 0.3, 0.3) ));
-    agregar(translate( glm::vec3( -2.5, -6.75, 18) ));
-    agregar(new Pata(3));    
-    agregar(translate( glm::vec3( 5, 0, 0) ));
-    agregar(new Pata(4));
-    tras_helicoptero = leerPtrMatriz(ind);
+
+CuboCuerpo::CuboCuerpo() {
+    vertices = {
+        {+1.0, -1.0, +1.0}, {-1.0, -1.0, +1.0},
+        {-1.0, +1.0, +1.0}, {+1.0, +1.0, +1.0},
+        {+1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0},
+        {-1.0, +1.0, -1.0}, {+1.0, +1.0, -1.0}
+    };
+    triangulos = {
+        {0, 1, 2}, {0, 2, 3}, {4, 7, 6}, {4, 6, 5},
+        {0, 3, 7}, {0, 7, 4}, {1, 5, 6}, {1, 6, 2},
+        {3, 2, 6}, {3, 6, 7}, {0, 4, 5}, {0, 5, 1}
+    };
+    calcularNormales();
 }
 
-unsigned Helicoptero::leerNumParametros() const
-{
-    return 4;
+MinecraftMuñeco::MinecraftMuñeco() {
+    ponerNombre("Muñeco de Minecraft");
+
+    // Cuerpo
+    NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
+    cuerpo->ponerNombre("Cuerpo del Muñeco");
+    cuerpo->agregar(translate(vec3(0.0, 1.0, 0.0)) * scale(vec3(1.0, 2.0, 0.5)));
+    cuerpo->agregar(new CuboCuerpo());
+
+    // Cabeza
+    NodoGrafoEscena* cabeza = new NodoGrafoEscena();
+    cabeza->ponerNombre("Cabeza del Muñeco");
+    unsigned indiceRotCabeza = cabeza->agregar(rotate(0.0f, vec3{0.0, 1.0, 0.0}));
+    cabeza->agregar(translate(vec3(0.0, 3.0, 0.0)) * scale(vec3(1.0, 1.0, 1.0)));
+    cabeza->agregar(new CuboCuerpo());
+    rotacionCabeza = cabeza->leerPtrMatriz(indiceRotCabeza);
+
+    // Brazos
+    // Brazo izquierdo
+NodoGrafoEscena* brazoIzq = new NodoGrafoEscena();
+brazoIzq->ponerNombre("Brazo Izquierdo");
+// Primero aplica la rotación, luego la traslación
+unsigned indiceRotBrazoIzq = brazoIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0}));
+brazoIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Coloca el brazo en su posición relativa al cuerpo
+brazoIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala para definir el tamaño del brazo
+brazoIzq->agregar(new CuboCuerpo());
+rotacionBrazoIzq = brazoIzq->leerPtrMatriz(indiceRotBrazoIzq);
+
+// Brazo derecho
+NodoGrafoEscena* brazoDer = new NodoGrafoEscena();
+brazoDer->ponerNombre("Brazo Derecho");
+// Primero aplica la rotación, luego la traslación
+unsigned indiceRotBrazoDer = brazoDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0}));
+brazoDer->agregar(translate(vec3(1.5, 1.5, 0.0))); // Coloca el brazo en su posición relativa al cuerpo
+brazoDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala para definir el tamaño del brazo
+brazoDer->agregar(new CuboCuerpo());
+rotacionBrazoDer = brazoDer->leerPtrMatriz(indiceRotBrazoDer);
+
+    // Piernas
+    NodoGrafoEscena* piernaIzq = new NodoGrafoEscena();
+    piernaIzq->ponerNombre("Pierna Izquierda");
+    unsigned indiceRotPiernaIzq = piernaIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0}));
+    piernaIzq->agregar(translate(vec3(-0.5, -1.0, 0.0)) * scale(vec3(0.5, 1.5, 0.5)));
+    piernaIzq->agregar(new CuboCuerpo());
+    rotacionPiernaIzq = piernaIzq->leerPtrMatriz(indiceRotPiernaIzq);
+
+    NodoGrafoEscena* piernaDer = new NodoGrafoEscena();
+    piernaDer->ponerNombre("Pierna Derecha");
+    unsigned indiceRotPiernaDer = piernaDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0}));
+    piernaDer->agregar(translate(vec3(0.5, -1.0, 0.0)) * scale(vec3(0.5, 1.5, 0.5)));
+    piernaDer->agregar(new CuboCuerpo());
+    rotacionPiernaDer = piernaDer->leerPtrMatriz(indiceRotPiernaDer);
+
+    // Agregar al muñeco
+    agregar(cuerpo);
+    agregar(cabeza);
+    agregar(brazoIzq);
+    agregar(brazoDer);
+    agregar(piernaIzq);
+    agregar(piernaDer);
 }
 
-void Helicoptero::actualizarEstadoParametro(const unsigned iParam, const float t_sec)
-{
-    assert(iParam < leerNumParametros());
-    float v;
-    switch(iParam)
-    {
+unsigned MinecraftMuñeco::leerNumParametros() const {
+    return 5;
+}
+
+void MinecraftMuñeco::actualizarEstadoParametro(const unsigned iParam, const float tSec) {
+    switch (iParam) {
         case 0:
-            {
-                v = 0 + 2*sin( 2*M_PI * 0.2 * t_sec);
-                *tras_helicoptero = translate( glm::vec3( 0.0, v, 0.0));
-            }
+            *rotacionCabeza = rotate(float(M_PI / 4 * sin(tSec)), vec3{0.0, 1.0, 0.0});
             break;
         case 1:
-            {
-                //Para que gire en ambos sentidos
-                //v = 2 + 2 * sin( M_PI * 0.2 * t_sec*2);
-                //*rot_helice1 = rotate( float(M_PI/2) * v, glm::vec3( 0.0, 0.0, 1.0));   
-
-                //Para que gire indefinidamente      
-                v = 0 + 2*M_PI*1.225*t_sec;   
-                *rot_helice1 = rotate( v, glm::vec3( 0.0, 0.0, 1.0));
-            }
+            *rotacionBrazoIzq = rotate(float(M_PI / 4 * sin(tSec)), vec3{1.0, 0.0, 0.0});
             break;
-        case 2: 
-            {
-                //Para que gire en ambos sentidos
-                //v = 2 + 2 * sin( M_PI * 0.2 * t_sec*2);
-                //*rot_helice2 = rotate( float(M_PI/2) * v, glm::vec3( 0.0, 0.0, 1.0));   
-
-                //Para que gire indefinidamente        
-                v = 0 + 2*M_PI*2.5*t_sec;  
-                *rot_helice2 = rotate( v, glm::vec3( 0.0, 0.0, 1.0));
-            }
+        case 2:
+            *rotacionBrazoDer = rotate(float(-M_PI / 4 * sin(tSec)), vec3{1.0, 0.0, 0.0});
             break;
         case 3:
-            {
-                v = 0 + M_PI/5 * sin( 2*M_PI * 0.2 * t_sec);
-                *rot_cola = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
-
-            }
-    }        
+            *rotacionPiernaIzq = rotate(float(M_PI / 8 * sin(tSec)), vec3{1.0, 0.0, 0.0});
+            break;
+        case 4:
+            *rotacionPiernaDer = rotate(float(-M_PI / 8 * sin(tSec)), vec3{1.0, 0.0, 0.0});
+            break;
+    }
 }
-
-Cuerpo::Cuerpo(glm::mat4 *&movimiento)
-{
-    ponerNombre("Cuerpo");
-    ponerIdentificador(1);
-    //agregar(new Nodo_base_hel());
-    agregar(scale( glm::vec3( 1.0, -1.0, 1.0) ));
-    //agregar(new Nodo_base_hel());
-    agregar(scale( glm::vec3( -1.0, 1.0, 1.0) ));
-   // agregar(new Nodo_base_hel());
-    agregar(scale( glm::vec3( 1.0, -1.0, 1.0) ));
-   // agregar(new Nodo_base_hel());
-    agregar(translate( glm::vec3( 0.0, 2.5, 4.5) ));
-    agregar(scale( glm::vec3( 3.0, 2.0, 3.0) ));
-    agregar(rotate( float(M_PI/2), glm::vec3( 1.0, 0.0, 0.0) ));
-    unsigned ind = agregar(rotate(0.0f, glm::vec3( 0.0, 1.0, 0.0) ));
-    agregar(new Helice(5));
-    movimiento = leerPtrMatriz(ind);
-}
-
-Aspa::Aspa()
-{     
-    agregar(new Triangulo_hel());
-    agregar(scale( glm::vec3( 1.0, -1.0, 1.0) ));
-    agregar(new Triangulo_hel());
-}
-
-Helice::Helice(int n)
-{
-    ponerNombre("Helice "+to_string(n));
-    ponerIdentificador(n);
-    agregar(new Aspa());
-    agregar(rotate( float(M_PI/2), glm::vec3( 0.0, 0.0, 1.0) ));
-    agregar(new Aspa());
-    agregar(rotate( float(M_PI/2), glm::vec3( 0.0, 0.0, 1.0) ));
-    agregar(new Aspa());
-    agregar(rotate( float(M_PI/2), glm::vec3( 0.0, 0.0, 1.0) ));
-    agregar(new Aspa());
-    agregar(scale( glm::vec3( 0.1, 0.1, 0.5) ));
-    agregar(rotate( float(M_PI/2), glm::vec3( 1.0, 0.0, 0.0) ));
-    agregar(new Cilindro(8,40));
-}
-
-Barra::Barra()
-{
-    agregar(scale( glm::vec3( 0.5, 0.5, 1) ));
-    Material* materialBarra = new Material( new Textura("camuflaje2.jpg") , 0.5, 0.3, 0.7, 100.0);
-    agregar(materialBarra);
-    agregar(new Cubo24());
-}
-
-Cola::Cola(glm::mat4 *&movimiento1,glm::mat4 *&movimiento2)
-{
-    ponerNombre("Cola");
-    ponerIdentificador(2);
-    agregar(new Barra());
-    unsigned ind2 = agregar(rotate(0.0f, glm::vec3( 0.0, 1.0, 0.0) ));
-    agregar(translate( glm::vec3( 0.0, 0.0, -1.8) ));
-    agregar(new Barra());
-    agregar(rotate( float(3*M_PI/2), glm::vec3( 0.0, 1.0, 0.0) ));
-    agregar(translate( glm::vec3( -1, 0.5, -0.5) ));
-    agregar(new Nodo_cunia());
-    agregar(translate ( glm::vec3( 0.35, 0.5, -0.5) ));
-    unsigned ind1 = agregar(rotate(0.0f, glm::vec3( 0.0, 1.0, 0.0) ));
-    agregar(new Helice(6));
-    movimiento1 = leerPtrMatriz(ind1);
-    movimiento2 = leerPtrMatriz(ind2);
-}
-
-Pata::Pata(int n)
-{
-    ponerNombre("Pata "+to_string(n));
-    ponerIdentificador(n);
-    agregar(scale( glm::vec3( 1, 1, 6) ));
-    agregar(new Barra());
-    agregar(scale( glm::vec3( 1, 2, 1) ));
-    agregar(rotate( float(M_PI/2), glm::vec3( 1.0, 0.0, 0.0) ));
-    agregar(translate( glm::vec3( 0.0, 0.0, -1.25) ));
-    agregar(new Barra());
-    
-}
-
-Triangulo_hel::Triangulo_hel()
-   : MallaInd( "Triangulo_hel" )
-{
-   vertices = 
-      {  { 0.0, 0.0, 0.0 }, // 0
-         { 1.0, 0.0, 0.0 }, // 1
-         { 0.1, 0.1, 0.0 },  // 2
-      } ;
-   triangulos =
-      {
-         { 0, 1, 2 }
-      } ;
-   ponerColor({1, 1, 1});
-   calcularNormales();
-}
-
-Parte_base_hel::Parte_base_hel()
-   : MallaInd( "Parte_base_hel" )
-{
-   vertices = 
-      {  { 0.5, 0.0, 0.0 }, // 0
-         { 1.5, 0.0, 1 }, // 1
-         { 2, 0, 2.5 }, // 2
-         { 1.8, 0, 4.2 }, // 3
-         { 1.2, 0.0, 6.4 }, // 4
-         { 0, 0.0, 7.8 }, // 5
-         { 0.5, -0.5, 0.0 }, // 6
-         { 0, -1.8, 2.5 }, // 7
-         { 0, -1.8, 6.4 }, // 8
-         { 0, -0.5, 0 }, // 9
-      } ;
-   triangulos =
-      {
-         { 0, 1, 6 }, // cara 0
-         { 1,6,7 }, // cara 1
-         { 1,2,7 }, // cara 2
-         { 2,3,7 }, // cara 3
-         { 3, 7, 8 }, // cara 4
-         { 3, 4, 8 }, // cara 5
-         { 4, 5, 8 }, // cara 6
-         { 6, 7, 9 }, // cara 7
-      } ;
-   calcularNormales();
-
-}
-
-Cunia_hel::Cunia_hel()
-   : MallaInd( "Cunia_hel" )
-{
-   vertices = 
-      {  { 0.0, 0.0, 0.0 }, // 0
-         { 0.0, 0.0, 1 }, // 1
-         { 0.5, 0.0, 1 }, // 2
-         { 0.5, 0.0, 0.0 }, // 3
-         { 0.5, 1.5, 0.0 }, // 4
-         { 0.5, 1.5, 1 }, // 5
-      } ;
-
-   triangulos =
-      {
-         { 0, 1, 3 }, // cara 0
-         { 1, 2, 3 }, // cara 1
-         { 0, 1, 5 }, // cara 2
-         { 0, 4, 5 }, // cara 3
-         { 1, 2, 5 }, // cara 4
-         { 0, 3, 4 }, // cara 5
-         { 3, 4, 5 }, // cara 6
-         { 2, 3, 5 }, // cara 7
-      } ;
-   
-   ponerColor({0.5, 0.8, 1.0});
-   calcularNormales();
-}
-
-Nodo_cunia::Nodo_cunia()
-{
-    Material* materialCunia = new Material( 0.5, 0.3, 0.9, 50.0);
-    agregar(materialCunia);
-    agregar(new Cunia_hel());
-}
-
-/*
-Nodo_base_hel::Nodo_base_hel()
-{
-    Material* materialBase = new Material( new TexturaXZ("camuflaje.jpg") , 0.5, 0.3, 0.7, 40.0);
-    agregar(materialBase);
-    agregar(new Parte_base_hel());
-
-   
-}*/
-// -----------------------------------------------------------------------------------------------

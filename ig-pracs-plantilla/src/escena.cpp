@@ -369,7 +369,7 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
-   objetos.push_back( new Helicoptero());
+   objetos.push_back( new MinecraftMuñeco());
 }
 
 // ----------------------------------------------------------------------------

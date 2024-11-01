@@ -1,5 +1,5 @@
-// Nombre: Daniel, Apellidos: Alconchel Vázquez, Titulación: GIM.
-// email: danieeeld2@correo.ugr.es, DNI o pasaporte: 49617109Z
+// Nombre: Florín Emanuel Todor Gliga Titulación: GIIADE.
+// email: flotodor@correo.ugr.es.
 
 #ifndef MODELO_JER_H
 #define MODELO_JER_H
@@ -17,10 +17,10 @@ public:
 class MinecraftMuñeco : public NodoGrafoEscena {
 public:
     MinecraftMuñeco();
-    unsigned leerNumParametros() const override;
-    void actualizarEstadoParametro(const unsigned iParam, const float tSec) override;
+    unsigned leerNumParametros() const;
+    virtual void actualizarEstadoParametro(const unsigned iParam, const float tSec);
 
-private:
+protected:
     glm::mat4 *rotacionCabeza;
     glm::mat4 *rotacionBrazoIzq;
     glm::mat4 *rotacionBrazoDer;

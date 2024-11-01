@@ -122,15 +122,7 @@ void NodoGrafoEscena::visualizarGL(  )
    //     - restaurar el color original a la entrada (con 'popColor')
 
 
-   // COMPLETAR: práctica 4: añadir gestión de los materiales cuando la iluminación está activada    
-   //
-   // Si 'apl->iluminacion' es 'true', se deben de gestionar los materiales:
-   //
-   //   1. al inicio, hacer 'push' de la pila de materiales (guarda material actual en la pila)
-   //   2. si una entrada es de tipo material, activarlo usando a pila de materiales
-   //   3. al finalizar, hacer 'pop' de la pila de materiales (restaura el material activo al inicio)
-
-   // ......
+  
 
      if (tieneColor()) {
        cauce->pushColor();
@@ -158,7 +150,15 @@ void NodoGrafoEscena::visualizarGL(  )
    }
 
    
+    // COMPLETAR: práctica 4: añadir gestión de los materiales cuando la iluminación está activada    
+   //
+   // Si 'apl->iluminacion' es 'true', se deben de gestionar los materiales:
+   //
+   //   1. al inicio, hacer 'push' de la pila de materiales (guarda material actual en la pila)
+   //   2. si una entrada es de tipo material, activarlo usando a pila de materiales
+   //   3. al finalizar, hacer 'pop' de la pila de materiales (restaura el material activo al inicio)
 
+   // ......
 
 
 }

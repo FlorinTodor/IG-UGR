@@ -77,7 +77,9 @@ void FGE_PulsarLevantarTecla( GLFWwindow* window, int key, int scancode, int act
       // 'true', forzar revisualizar escena (asignando valor a 'revisualizar_escena')
 
          if(ProcesarTeclaAnimacion(objeto, key))
-         redib = true ; // forzar revisualizar escena
+         aplicacionIG->revisualizar_escena = true;
+         
+         
 
       return ; // finalizar la f.g.e, ya que si está la tecla A pulsada no se mira ninguna otra tecla.
    }

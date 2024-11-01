@@ -98,7 +98,7 @@ bool ProcesarTeclaAnimacion( Objeto3D * objeto, int glfw_key )
 
       //case GLFW_KEY_PAGE_DOWN :
       case GLFW_KEY_SLASH :        // tecla con '-' y '_' en el teclado normal (NO en la plantilla)
-      case GLFW_KEY_KP_SUBTRACT :  // tecla '-' en el teclado numérico
+      //case GLFW_KEY_KP_SUBTRACT :  // tecla '-' en el teclado numérico
          if ( animaciones_activadas )
          {  animaciones_activadas = false ;
             cout << "Animaciones desactivadas." << endl ;

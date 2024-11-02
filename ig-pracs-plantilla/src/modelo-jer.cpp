@@ -56,46 +56,53 @@ MinecraftMuñeco::MinecraftMuñeco() {
     sombrero->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para el sombrero
     sombrero->agregar(new CuboCuerpo());
 
-    // Ojos
+    // Ojo Izquierdo y Pupila
     NodoGrafoEscena* ojoIzq = new NodoGrafoEscena();
+    ojoIzq->ponerNombre("Ojo Izquierdo");
     ojoIzq->agregar(translate(vec3(-0.3, 0.2, 1.05))); // Posición del ojo izquierdo
     ojoIzq->agregar(scale(vec3(0.2, 0.2, 0.1))); // Escala del ojo izquierdo
     ojoIzq->ponerColor({1.0f, 1.0f, 1.0f}); // Blanco para el ojo izquierdo
     ojoIzq->agregar(new CuboCuerpo());
 
+    NodoGrafoEscena* pupilaIzq = new NodoGrafoEscena();
+    pupilaIzq->ponerNombre("Pupila Izquierda");
+    pupilaIzq->agregar(translate(vec3(0.0, 0.0, 1.1))); // Posición de la pupila en el ojo
+    pupilaIzq->agregar(scale(vec3(0.5, 0.5, 0.5))); // Escala de la pupila
+    pupilaIzq->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para la pupila
+    pupilaIzq->agregar(new CuboCuerpo());
+
+    ojoIzq->agregar(pupilaIzq); // Añadir pupila al ojo izquierdo
+
+    // Ojo Derecho y Pupila
     NodoGrafoEscena* ojoDer = new NodoGrafoEscena();
+    ojoDer->ponerNombre("Ojo Derecho");
     ojoDer->agregar(translate(vec3(0.3, 0.2, 1.05))); // Posición del ojo derecho
     ojoDer->agregar(scale(vec3(0.2, 0.2, 0.1))); // Escala del ojo derecho
     ojoDer->ponerColor({1.0f, 1.0f, 1.0f}); // Blanco para el ojo derecho
     ojoDer->agregar(new CuboCuerpo());
 
-    // Pupilas
-    NodoGrafoEscena* pupilaIzq = new NodoGrafoEscena();
-    pupilaIzq->agregar(translate(vec3(-0.3, 0.2, 1.15))); // Posición de la pupila izquierda
-    pupilaIzq->agregar(scale(vec3(0.1, 0.1, 0.05))); // Escala de la pupila izquierda
-    pupilaIzq->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para la pupila izquierda
-    pupilaIzq->agregar(new CuboCuerpo());
-
     NodoGrafoEscena* pupilaDer = new NodoGrafoEscena();
-    pupilaDer->agregar(translate(vec3(0.3, 0.2, 1.15))); // Posición de la pupila derecha
-    pupilaDer->agregar(scale(vec3(0.1, 0.1, 0.05))); // Escala de la pupila derecha
-    pupilaDer->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para la pupila derecha
+    pupilaDer->ponerNombre("Pupila Derecha");
+    pupilaDer->agregar(translate(vec3(0.0, 0.0, 1.1))); // Posición de la pupila en el ojo
+    pupilaDer->agregar(scale(vec3(0.5, 0.5, 0.5))); // Escala de la pupila
+    pupilaDer->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para la pupila
     pupilaDer->agregar(new CuboCuerpo());
+
+    ojoDer->agregar(pupilaDer); // Añadir pupila al ojo derecho
 
     // Boca
     NodoGrafoEscena* boca = new NodoGrafoEscena();
+    boca->ponerNombre("Boca");
     boca->agregar(translate(vec3(0.0, -0.2, 1.05))); // Posición de la boca
     boca->agregar(scale(vec3(0.4, 0.1, 0.1))); // Escala de la boca
     boca->ponerColor({1.0f, 0.5f, 0.5f}); // Rosa claro para la boca
     boca->agregar(new CuboCuerpo());
 
-    // Añadir ojos, pupilas, boca y sombrero a la cabeza
-    cabeza->agregar(ojoIzq);
-    cabeza->agregar(ojoDer);
-    cabeza->agregar(pupilaIzq);
-    cabeza->agregar(pupilaDer);
-    cabeza->agregar(boca);
-    cabeza->agregar(sombrero);
+    // Añadir componentes a la cabeza
+    cabeza->agregar(ojoIzq);     // Añadir ojo izquierdo (con pupila) a la cabeza
+    cabeza->agregar(ojoDer);     // Añadir ojo derecho (con pupila) a la cabeza
+    cabeza->agregar(boca);       // Añadir boca a la cabeza
+    cabeza->agregar(sombrero);   // Añadir sombrero a la cabeza
 
     // Brazo izquierdo
     NodoGrafoEscena* hombroIzq = new NodoGrafoEscena();
@@ -157,6 +164,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     agregar(piernaIzq);
     agregar(piernaDer);
 }
+
 
 
 

@@ -119,6 +119,55 @@ class NodoGrafoEscena : public Objeto3D
 
 // *********************************************************************
 
+/* EJERCICIOS ADICIONALES PRACTICA 3*/
+
+class GrafoEstrellaX : public NodoGrafoEscena {
+public:
+    // Constructor que acepta un parámetro 'n' (número de puntas de la estrella)
+    GrafoEstrellaX(unsigned n);
+
+    // Método para actualizar el estado del parámetro de rotación
+    void actualizarEstadoParametro(const unsigned iParam, const float tSec) override;
+   unsigned leerNumParametros() const;
+
+private:
+    glm::mat4 * rotacionEstrella;  // Puntero para la matriz de rotación
+};
+
+class ConoEstrellaX : public NodoGrafoEscena {
+public:
+    // Constructor
+    ConoEstrellaX();
+};
+
+/** GrafoCubos */
+
+class CaraCubos : public NodoGrafoEscena
+{
+   public:
+      CaraCubos(glm::mat4 *&movimiento);
+} ;
+
+
+class GrafoCubos : public NodoGrafoEscena
+{
+   public:
+      GrafoCubos();
+      unsigned leerNumParametros() const;
+      void actualizarEstadoParametro(const unsigned iParam, const float t_sec);
+
+   protected:
+      glm::mat4 *rot_cubo1 = nullptr;
+      glm::mat4 *rot_cubo2 = nullptr;
+      glm::mat4 *rot_cubo3 = nullptr;
+      glm::mat4 *rot_cubo4 = nullptr;
+      glm::mat4 *rot_cubo5 = nullptr;
+      glm::mat4 *rot_cubo6 = nullptr;
+};
+// Clase GrafoCubos
+
+
+
 
 
 

@@ -27,9 +27,14 @@
 
 #include "ig-aux.h"  
 #include "grafo-escena.h"
+#include "malla-ind.h"
+#include "malla-revol.h"
 #include "aplicacion-ig.h"
 #include "seleccion.h"   // para 'ColorDesdeIdent' 
+#include <glm/gtx/transform.hpp>
 
+using namespace std ;
+using namespace glm ;
 
 
 // *********************************************************************
@@ -374,8 +379,111 @@ bool NodoGrafoEscena::buscarObjeto
 
 
 
+/* EJERCICIOS ADICIONALES PRACTICA 3*/
+
+/* Hacemos las modificaciones*/
+ConoEstrellaX::ConoEstrellaX()
+{
+   agregar(translate(glm::vec3(0,1.3,0))); // Trasladamos el cono para que se situe en la punta de la estrella en el eje Z, moviendolo 1.3 unidades en el eje Y
+   agregar(scale(glm::vec3(0.14,0.15,0.14))); // Escalamos el cono eun 14% en X, 15% en Y y 14% en Z, esto hace que el cono se estreche en la parte superior y se ensanche en la parte inferior 
+   agregar(new Cono(8,40)); // Añadimos el cono
+}
+
+GrafoEstrellaX::GrafoEstrellaX(unsigned n)
+{
+   assert(n>1);
+   ponerNombre("GrafoEstrellaX");
+
+   unsigned ind = agregar(rotate(float(M_PI),(glm::vec3( 1.0, 0.0, 0.0) ))); // Rotamos la estrella en el eje X 180 grados
+   agregar(rotate(float(M_PI/2),glm::vec3(0,1,0))); // Rotamos la estrella en el eje Y 90 grados
+   agregar(scale(glm::vec3(2.6,2.6,2.6))); // Escalamos la estrella en 2.6 en X, Y y Z
+   agregar(translate(glm::vec3(-0.5,-0.5,0))); // Trasladamos la estrella para que el centro de la estrella esté en (0,0,0)
+   agregar(new EstrellaZ(n));
+
+   agregar(scale(glm::vec3(1/2.6,1/2.6,1/2.6))); // Escalamos la estrella en 1/2.6 en X, Y y Z
+   agregar(translate(glm::vec3(1.3,1.3,0))); //
+
+   for(int i=0;i<n;i++){
+      agregar(rotate(float(2*M_PI/n),glm::vec3(0,0,1)));
+      agregar(new ConoEstrellaX());
+   }
+   
+   rotacionEstrella = leerPtrMatriz(ind);
+}
+
+unsigned GrafoEstrellaX::leerNumParametros() const
+{
+   return 1;
+}
+
+void GrafoEstrellaX::actualizarEstadoParametro(const unsigned iParam, const float t_sec)
+{
+   assert(iParam < leerNumParametros());
+   float v;
+   switch(iParam)
+   {
+      case 0:
+         {
+            v = 0 + 2*M_PI*2.5*t_sec;
+            *rotacionEstrella = rotate( v, glm::vec3( 1.0, 0.0, 0.0));
+         }
+         break;
+   }
+}
 
 
+GrafoCubos::GrafoCubos()
+{
+   ponerNombre("GrafoCubos");
+   agregar(new CaraCubos(rot_cubo1));
+   agregar(scale(glm::vec3(-1,-1,-1)));
+   agregar(new CaraCubos(rot_cubo2));
+   agregar(rotate(float(M_PI/2),glm::vec3(0,0,1)));
+   agregar(new CaraCubos(rot_cubo3));
+   agregar(rotate(float(M_PI/2),glm::vec3(1,0,0)));
+   agregar(new CaraCubos(rot_cubo4));
+   agregar(rotate(float(M_PI/2),glm::vec3(1,0,0)));
+   agregar(new CaraCubos(rot_cubo5));
+   agregar(rotate(float(M_PI/2),glm::vec3(1,0,0)));
+   agregar(new CaraCubos(rot_cubo6));
+}
+
+CaraCubos::CaraCubos(glm::mat4 *&movimiento)
+{
+   agregar(translate(glm::vec3(-0.5,0.5,-0.5)));
+   agregar(new RejillaY(6,6));
+   
+   agregar(translate(glm::vec3(0.5,0.25,0.5)));
+   agregar(scale(glm::vec3(0.125,0.25,0.125)));
+   unsigned ind = agregar(rotate(0.0f,glm::vec3(0,1,0)));
+   agregar(new Cubo());
+   movimiento = leerPtrMatriz(ind);
+}
+
+unsigned GrafoCubos::leerNumParametros() const
+{
+   return 1;
+}
+
+void GrafoCubos::actualizarEstadoParametro(const unsigned iParam, const float t_sec)
+{
+   assert(iParam < leerNumParametros());
+   float v;
+   switch(iParam)
+   {
+      case 0:
+         {
+            v = 0 + 2*M_PI*2.5*t_sec;
+            *rot_cubo1 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+            *rot_cubo2 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+            *rot_cubo3 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+            *rot_cubo4 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+            *rot_cubo5 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+            *rot_cubo6 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
+         }
+         break;
+   }
+}
 
 
 

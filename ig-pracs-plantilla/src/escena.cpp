@@ -42,7 +42,8 @@
 #include "materiales-luces.h"
 #include "escena.h"
 #include "modelo-jer.h"
-
+#include "prueba.h"
+#include "grafo-escena.h"  // aquí deberían estar definidas las clases de los muñecos y grafos
 
 
 // -----------------------------------------------------------------------------------------------
@@ -369,7 +370,9 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
-   objetos.push_back( new MinecraftMuñeco());
+   objetos.push_back( new MinecraftMuñeco());   
+   objetos.push_back( new AmongUsMuñeco());
+   objetos.push_back( new HelicopteroCompleto());
    objetos.push_back ( new GrafoEstrellaX(8));
    objetos.push_back ( new GrafoCubos());
 }

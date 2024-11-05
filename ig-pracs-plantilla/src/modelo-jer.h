@@ -26,6 +26,7 @@ protected:
     glm::mat4 *rotacionBrazoDer;
     glm::mat4 *rotacionPiernaIzq;
     glm::mat4 *rotacionPiernaDer;
+    glm::mat4 * movimientoCuerpo;
 };
 
 #endif // MODELO_JER_H

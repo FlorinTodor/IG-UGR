@@ -32,6 +32,8 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
+    unsigned indiceTraslacionCuerpo = agregar(translate(vec3(0.0f, 0.0f, 0.0f)));
+    movimientoCuerpo = leerPtrMatriz(indiceTraslacionCuerpo);
     cuerpo->ponerNombre("Cuerpo del Muñeco");
     cuerpo->agregar(translate(vec3(0.0, 1.0, 0.0))); // Posición
     cuerpo->agregar(scale(vec3(1.0, 2.0, 0.5))); // Escala
@@ -105,6 +107,8 @@ MinecraftMuñeco::MinecraftMuñeco() {
     cabeza->agregar(sombrero);   // Añadir sombrero a la cabeza
 
     // Brazo izquierdo
+    // Nodo para mover todo el cuerpo hacia adelante y atrás
+    
     NodoGrafoEscena* hombroIzq = new NodoGrafoEscena();
     hombroIzq->ponerNombre("Hombro Izquierdo");
     hombroIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Posición del hombro izquierdo
@@ -169,7 +173,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
 
 unsigned MinecraftMuñeco::leerNumParametros() const {
-    return 5;
+    return 6;
 }
 
 void MinecraftMuñeco::actualizarEstadoParametro(const unsigned iParam, const float tSec) {
@@ -189,5 +193,9 @@ void MinecraftMuñeco::actualizarEstadoParametro(const unsigned iParam, const fl
         case 4:
             *rotacionPiernaDer = rotate(float(-M_PI / 8 * sin(tSec)), vec3{1.0, 0.0, 0.0});
             break;
-    }
+        case 5:
+            *movimientoCuerpo = translate(vec3(0.0f, 0.0f, sin(tSec)));
+            break;
 }
+
+    }

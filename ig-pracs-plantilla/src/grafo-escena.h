@@ -127,7 +127,7 @@ public:
     GrafoEstrellaX(unsigned n);
 
     // Método para actualizar el estado del parámetro de rotación
-    void actualizarEstadoParametro(const unsigned iParam, const float tSec) override;
+   void actualizarEstadoParametro(const unsigned iParam, const float tSec) override;
    unsigned leerNumParametros() const;
 
 private:

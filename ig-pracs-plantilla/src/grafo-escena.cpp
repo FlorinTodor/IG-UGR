@@ -1,5 +1,7 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Gestión de grafos de escena (implementación). Clase 'NodoGrafoEscena' y relacionadas.
@@ -382,11 +384,10 @@ bool NodoGrafoEscena::buscarObjeto
 /* EJERCICIOS ADICIONALES PRACTICA 3*/
 
 /* Hacemos las modificaciones*/
-ConoEstrellaX::ConoEstrellaX()
-{
-   agregar(translate(glm::vec3(0,1.3,0))); // Trasladamos el cono para que se situe en la punta de la estrella en el eje Z, moviendolo 1.3 unidades en el eje Y
-   agregar(scale(glm::vec3(0.14,0.15,0.14))); // Escalamos el cono eun 14% en X, 15% en Y y 14% en Z, esto hace que el cono se estreche en la parte superior y se ensanche en la parte inferior 
-   agregar(new Cono(8,40)); // Añadimos el cono
+ConoEstrellaX::ConoEstrellaX() {
+    agregar(translate(glm::vec3(0.0, 1.3, 0.0)));       // Mueve el cono a 1.3 unidades en Y
+    agregar(scale(glm::vec3(0.14, 0.15, 0.14)));        // Escala para radio 0.14 y altura 0.15
+    agregar(new Cono(10, 60));                           // Crea la instancia del cono (puede tener detalles ajustados si Cono recibe otros parámetros)
 }
 
 GrafoEstrellaX::GrafoEstrellaX(unsigned n)
@@ -394,20 +395,23 @@ GrafoEstrellaX::GrafoEstrellaX(unsigned n)
    assert(n>1);
    ponerNombre("GrafoEstrellaX");
 
-   unsigned ind = agregar(rotate(float(M_PI),(glm::vec3( 1.0, 0.0, 0.0) ))); // Rotamos la estrella en el eje X 180 grados
-   agregar(rotate(float(M_PI/2),glm::vec3(0,1,0))); // Rotamos la estrella en el eje Y 90 grados
-   agregar(scale(glm::vec3(2.6,2.6,2.6))); // Escalamos la estrella en 2.6 en X, Y y Z
-   agregar(translate(glm::vec3(-0.5,-0.5,0))); // Trasladamos la estrella para que el centro de la estrella esté en (0,0,0)
-   agregar(new EstrellaZ(n));
+   unsigned ind = agregar(rotate(float(M_PI),(glm::vec3( 1.0, 0.0, 0.0) ))); 
+   agregar(rotate(float(M_PI/2),glm::vec3(0,1,0))); // Rotación para que la estrella se vea de frente
+   agregar(scale(glm::vec3(2.6,2.6,2.6))); // Escala para que la estrella tenga un tamaño adecuado, ya que el radio de la estrella debe ser 1.3
 
-   agregar(scale(glm::vec3(1/2.6,1/2.6,1/2.6))); // Escalamos la estrella en 1/2.6 en X, Y y Z
-   agregar(translate(glm::vec3(1.3,1.3,0))); //
+   agregar(translate(glm::vec3(-0.5,-0.5,0))); // Traslación para centrar la estrella
+   agregar(new EstrellaZ(n)); // Crea la instancia de la estrella en el eje Z
 
-   for(int i=0;i<n;i++){
-      agregar(rotate(float(2*M_PI/n),glm::vec3(0,0,1)));
-      agregar(new ConoEstrellaX());
-   }
+   agregar(scale(glm::vec3(1/2.6,1/2.6,1/2.6))); // Escala inversa para los conos
+   agregar(translate(glm::vec3(1.3,1.3,0))); //centrar conos encima de la estrella
    
+   for(int i=0;i<n;i++){   
+      agregar(rotate(float(2*M_PI/n),glm::vec3(0,0,1)));    // Rotación para que los conos se distribuyan en la estrella
+      agregar(new ConoEstrellaX());
+   
+   }
+
+   /* Rotación*/
    rotacionEstrella = leerPtrMatriz(ind);
 }
 
@@ -424,8 +428,9 @@ void GrafoEstrellaX::actualizarEstadoParametro(const unsigned iParam, const floa
    {
       case 0:
          {
-            v = 0 + 2*M_PI*2.5*t_sec;
+            v = 0 + 2*M_PI*2.5*t_sec; 
             *rotacionEstrella = rotate( v, glm::vec3( 1.0, 0.0, 0.0));
+         *rotacionEstrella = rotate(v, glm::vec3(1.0, 0.0, 0.0));
          }
          break;
    }
@@ -435,12 +440,12 @@ void GrafoEstrellaX::actualizarEstadoParametro(const unsigned iParam, const floa
 GrafoCubos::GrafoCubos()
 {
    ponerNombre("GrafoCubos");
-   agregar(new CaraCubos(rot_cubo1));
-   agregar(scale(glm::vec3(-1,-1,-1)));
-   agregar(new CaraCubos(rot_cubo2));
-   agregar(rotate(float(M_PI/2),glm::vec3(0,0,1)));
+   agregar(new CaraCubos(rot_cubo1)); 
+   agregar(scale(glm::vec3(-1,-1,-1))); // Escala para que el cubo se vea de frente
+   agregar(new CaraCubos(rot_cubo2)); 
+   agregar(rotate(float(M_PI/2),glm::vec3(0,0,1))); // Rotación para que el cubo se vea de frente
    agregar(new CaraCubos(rot_cubo3));
-   agregar(rotate(float(M_PI/2),glm::vec3(1,0,0)));
+   agregar(rotate(float(M_PI/2),glm::vec3(1,0,0))); 
    agregar(new CaraCubos(rot_cubo4));
    agregar(rotate(float(M_PI/2),glm::vec3(1,0,0)));
    agregar(new CaraCubos(rot_cubo5));
@@ -450,14 +455,14 @@ GrafoCubos::GrafoCubos()
 
 CaraCubos::CaraCubos(glm::mat4 *&movimiento)
 {
-   agregar(translate(glm::vec3(-0.5,0.5,-0.5)));
-   agregar(new RejillaY(6,6));
+   agregar(translate(glm::vec3(-0.5,0.5,-0.5))); // Traslación para centrar la cara del cubo en el origen
+   agregar(new RejillaY(6,6)); // Cara del cubo
    
-   agregar(translate(glm::vec3(0.5,0.25,0.5)));
-   agregar(scale(glm::vec3(0.125,0.25,0.125)));
-   unsigned ind = agregar(rotate(0.0f,glm::vec3(0,1,0)));
-   agregar(new Cubo());
-   movimiento = leerPtrMatriz(ind);
+   agregar(translate(glm::vec3(0.5,0.25,0.5))); // Traslación para centrar el cubo pequeño en la cara del cubo
+   agregar(scale(glm::vec3(0.125,0.25,0.125))); // Escala para que el cubo pequeño tenga un tamaño adecuado
+   unsigned ind = agregar(rotate(0.0f,glm::vec3(0,1,0))); // Rotación para que el cubo pequeño se vea de frente
+   agregar(new Cubo()); // cubo pequeño alargado son paralelepípedos
+   movimiento = leerPtrMatriz(ind); // Guardar la matriz de rotación del cubo pequeño
 }
 
 unsigned GrafoCubos::leerNumParametros() const
@@ -473,7 +478,7 @@ void GrafoCubos::actualizarEstadoParametro(const unsigned iParam, const float t_
    {
       case 0:
          {
-            v = 0 + 2*M_PI*2.5*t_sec;
+            v = 0 + 2*M_PI*2.5*t_sec; // Rotación en el eje Y
             *rot_cubo1 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
             *rot_cubo2 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));
             *rot_cubo3 = rotate( v, glm::vec3( 0.0, 1.0, 0.0));

@@ -1,5 +1,7 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Mallas indexadas (implementación). Clase 'MallaInd' y derivadas.
@@ -303,6 +305,47 @@ Cubo::Cubo()
 
 }
 
+CuboColores::CuboColores()
+:  MallaInd( "cubo con colores" )
+{
+   vertices =
+      {  { -1.0, -1.0, -1.0 }, // 0
+         { -1.0, -1.0, +1.0 }, // 1
+         { -1.0, +1.0, -1.0 }, // 2
+         { -1.0, +1.0, +1.0 }, // 3
+         { +1.0, -1.0, -1.0 }, // 4
+         { +1.0, -1.0, +1.0 }, // 5
+         { +1.0, +1.0, -1.0 }, // 6
+         { +1.0, +1.0, +1.0 }, // 7
+      } ;
+
+   triangulos =
+      {  {0,1,3}, {0,3,2}, // X-
+         {4,7,5}, {4,6,7}, // X+ (+4)
+         {0,5,1}, {0,4,5}, // Y-
+         {2,3,7}, {2,7,6}, // Y+ (+2)
+         {0,6,4}, {0,2,6}, // Z-
+         {1,5,7}, {1,7,3}  // Z+ (+1)
+      } ;
+
+   // Añadimos los colores de los vértices
+   // El color de cada vértice depende de su posición:
+   // R depende de X (-1 → 0, +1 → 1)
+   // G depende de Y (-1 → 0, +1 → 1)
+   // B depende de Z (-1 → 0, +1 → 1)
+   for (const auto & v : vertices) {
+      col_ver.push_back({
+         (v.x + 1.0f) / 2.0f,  // R: normalizado entre 0 y 1
+         (v.y + 1.0f) / 2.0f,  // G: normalizado entre 0 y 1
+         (v.z + 1.0f) / 2.0f   // B: normalizado entre 0 y 1
+      });
+   }
+}
+
+
+
+
+
 Tetraedro::Tetraedro() : MallaInd (" tetaedro 4 vértices y 4 caras "){
    ponerColor({0.0, 1.0, 0.0});
 
@@ -449,6 +492,77 @@ CasaX::CasaX()
       col_ver.push_back(vertices[i]);
    }
 }
+
+
+MallaTriangulo::MallaTriangulo()
+:  MallaInd( "MallaTriangulo" )
+{
+   // Vértices: base centrada en el origen, altura raíz de 2
+   vertices = {
+      { -0.5, 0.0, 0.0 },    // vértice 0: esquina izquierda
+      { +0.5, 0.0, 0.0 },    // vértice 1: esquina derecha
+      { 0.0, sqrt(2.0), 0.0 } // vértice 2: punta superior
+   };
+
+   // Un único triángulo
+   triangulos = { {0, 1, 2} };
+}
+
+MallaCuadrado::MallaCuadrado()
+:  MallaInd( "MallaCuadrado" )
+{
+   // Vértices: cuadrado centrado en el origen, lado 2
+   vertices = {
+      { -1.0, -1.0, 0.0 }, // vértice 0: esquina inferior izquierda
+      { +1.0, -1.0, 0.0 }, // vértice 1: esquina inferior derecha
+      { -1.0, +1.0, 0.0 }, // vértice 2: esquina superior izquierda
+      { +1.0, +1.0, 0.0 }  // vértice 3: esquina superior derecha
+   };
+
+   // Dos triángulos
+   triangulos = {
+      {0, 1, 2}, // triángulo inferior
+      {1, 3, 2}  // triángulo superior
+   };
+}
+
+MallaPiramideL::MallaPiramideL()
+:  MallaInd( "MallaPiramideL" )
+{
+   // Vértices de la base en forma de L (en el plano XY)
+   vertices = {
+      { 0.0, 0.0, 0.0 },  // v0: esquina interior de la L
+      { 1.0, 0.0, 0.0 },  // v1: extremo derecho
+      { 0.0, 1.0, 0.0 },  // v2: extremo superior
+      { -1.0, 0.0, 0.0 }, // v3: extremo izquierdo
+      { -1.0, -1.0, 0.0 },// v4: esquina inferior izquierda
+      { 0.0, -1.0, 0.0 }, // v5: esquina inferior derecha
+      { 0.0, 0.0, 1.0 }   // v6: ápice de la pirámide
+   };
+
+   // Triángulos
+   triangulos = {
+      // Base (3 triángulos mínimos para formar la L)
+      {0, 5, 1},  // triángulo derecho
+      {0, 4, 5},  // triángulo inferior
+      {0, 3, 4},  // triángulo izquierdo
+      {0, 2, 3},  // triángulo superior
+      // Caras laterales (6 triángulos)
+      {6, 1, 0},  // cara lateral derecha
+      {6, 0, 2},  // cara lateral superior
+      {6, 2, 3},  // cara lateral superior izquierda
+      {6, 3, 4},  // cara lateral inferior izquierda
+      {6, 4, 5},  // cara lateral inferior
+      {6, 5, 1}   // cara lateral inferior derecha
+   };
+}
+
+
+
+
+
+
+/**      EJERCICIOS ADICIONALES PRACTICA 2 */
 
 PiramideEstrellaZ::PiramideEstrellaZ(unsigned n)
 : MallaInd("PiramideZ practica 2") {

@@ -1,5 +1,7 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Mallas indexadas (declaraciones). Clase 'MallaInd' y derivadas.
@@ -167,6 +169,29 @@ class Cubo24 : public MallaInd
       Cubo24();
 };
 
+class CuboColores : public MallaInd
+{
+   public:
+      CuboColores();
+};
+
+class MallaTriangulo : public MallaInd
+{
+   public:
+      MallaTriangulo();
+};
+
+class MallaCuadrado : public MallaInd
+{
+   public:
+      MallaCuadrado();
+};
+
+class MallaPiramideL : public MallaInd
+{
+   public:
+      MallaPiramideL();
+};
 
 // ---------------------------------------------------------------------
 

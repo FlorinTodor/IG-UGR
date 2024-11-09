@@ -1,5 +1,6 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Gestión de eventos de teclado (declaraciones). Función 'FGE_PulsarLevantarTecla'.

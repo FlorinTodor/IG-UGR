@@ -1,5 +1,7 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Gestión de escenas (implementaciones). Clase 'Escena' y derivadas.
@@ -315,9 +317,13 @@ Escena1::Escena1()
 
 
    objetos.push_back( new Cubo() );
+   objetos.push_back( new CuboColores() );
    objetos.push_back( new Tetraedro() );
    objetos.push_back( new EstrellaZ(8));
    objetos.push_back( new CasaX());
+   objetos.push_back( new MallaTriangulo());
+   objetos.push_back( new MallaCuadrado());
+   objetos.push_back( new MallaPiramideL());
   
 
    // COMPLETAR: práctica 1: añadir resto de objetos a la escena 1
@@ -348,9 +354,9 @@ Escena2::Escena2()
    objetos.push_back (new MallaTorre(8));
   
    // USO DE PLY
-   objetos.push_back(new MallaPLY("../plys/beethoven.ply"));
-   objetos.push_back(new MallaPLY("../plys/big_dodge.ply"));
-   objetos.push_back(new MallaRevolPLY("../plys/peon.ply", 50));
+   objetos.push_back(new MallaPLY("beethoven.ply"));
+   objetos.push_back(new MallaPLY("big_dodge.ply"));
+   objetos.push_back(new MallaRevolPLY("plys/peon.ply", 50));
    // COMPLETAR: práctica 2: añadir resto de objetos a la escena 2
    //
    // Añadir sentencias 'push_back' adicionales para agregar al 
@@ -370,9 +376,9 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
-   objetos.push_back( new MinecraftMuñeco());   
-   objetos.push_back( new AmongUsMuñeco());
-   objetos.push_back( new HelicopteroCompleto());
+  // objetos.push_back( new MinecraftMuñeco());   
+   //objetos.push_back( new AmongUsMuñeco());
+   //objetos.push_back( new HelicopteroCompleto());
    objetos.push_back ( new GrafoEstrellaX(8));
    objetos.push_back ( new GrafoCubos());
 }

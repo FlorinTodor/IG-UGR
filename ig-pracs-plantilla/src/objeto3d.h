@@ -1,5 +1,6 @@
-// *********************************************************************
-// **
+// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
+// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Objetos que se pueden visualizar (declaración). Clase 'Objeto3D'.

@@ -356,7 +356,9 @@ Escena2::Escena2()
    // USO DE PLY
    objetos.push_back(new MallaPLY("beethoven.ply"));
    objetos.push_back(new MallaPLY("big_dodge.ply"));
-   objetos.push_back(new MallaRevolPLY("plys/peon.ply", 50));
+   objetos.push_back(new MallaRevolPLY("peon.ply", 50));
+   objetos.push_back(new MallaPLY("f16.ply")); //pruebas de  otros ply
+   
    // COMPLETAR: práctica 2: añadir resto de objetos a la escena 2
    //
    // Añadir sentencias 'push_back' adicionales para agregar al 
@@ -376,8 +378,8 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
-  // objetos.push_back( new MinecraftMuñeco());   
-   //objetos.push_back( new AmongUsMuñeco());
+  objetos.push_back( new MinecraftMuñeco());   
+   objetos.push_back( new AmongUsMuñeco());
    //objetos.push_back( new HelicopteroCompleto());
    objetos.push_back ( new GrafoEstrellaX(8));
    objetos.push_back ( new GrafoCubos());

@@ -177,6 +177,7 @@ unsigned MinecraftMuñeco::leerNumParametros() const {
 }
 
 void MinecraftMuñeco::actualizarEstadoParametro(const unsigned iParam, const float tSec) {
+     assert(iParam < leerNumParametros());
     switch (iParam) {
         case 0:
             *rotacionCabeza = rotate(float(M_PI / 4 * sin(tSec)), vec3{0.0, 1.0, 0.0});

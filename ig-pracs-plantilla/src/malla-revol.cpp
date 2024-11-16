@@ -63,8 +63,8 @@ Los pseudocódigos de los algoritmos de creación de mallas por revolución se e
 
 */
    //Rellenamos la tabla de vertices
-   for (int i = 0; i < num_copias; i++) {
-      for (int j = 0; j < perfil.size(); j++) {
+   for (unsigned i = 0; i < num_copias; i++) {
+      for (unsigned j = 0; j < perfil.size(); j++) {
 
          /**
           *   tita es el ángulo de rotación calculado en radianes
@@ -109,8 +109,8 @@ Los pseudocódigos de los algoritmos de creación de mallas por revolución se e
 
    //Rellenamos la tabla de triangulos
 
-   for (int i = 0; i < num_copias-1; i++) {
-      for (int j = 0; j < perfil.size()-1; j++) {
+   for (unsigned i = 0; i < num_copias-1; i++) {
+      for (unsigned j = 0; j < perfil.size()-1; j++) {
          int k = i * perfil.size() + j;
 
          triangulos.push_back({k, k + perfil.size(), k + perfil.size() + 1});

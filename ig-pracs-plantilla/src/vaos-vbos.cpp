@@ -407,7 +407,7 @@ void DescrVAO::crearVAO()
    glBindVertexArray(array);
    // 2. Para cada VBO de atributos adjunto al VAO (puntero en 'dvbo_atributo' no nulo):
    //       Crear el VBO de atributos en la GPU (usar 'crearVBO')
-   for(int i=0;i<num_atribs;i++){
+   for(unsigned int i=0;i<num_atribs;i++){
       if(dvbo_atributo[i] != nullptr){
          dvbo_atributo[i]->crearVBO();
       }
@@ -421,7 +421,7 @@ void DescrVAO::crearVAO()
    //       Si la tabla está deshabilitada en el vector 'atrib_habilitado':
    //           Deshabilitarla en la GPU con 'glDisableVertexAttribArray'
    //
-   for(int i=0;i<num_atribs;i++){
+   for(unsigned int i=0;i<num_atribs;i++){
       if(dvbo_atributo[i] != nullptr){
          if(!atrib_habilitado[i]){
             glDisableVertexAttribArray(dvbo_atributo[i]->buffer);

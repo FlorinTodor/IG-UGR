@@ -11,14 +11,14 @@ using namespace glm;
 CuerpoAmongUs::CuerpoAmongUs() {
     // Vértices para un cuerpo más ovalado
     float radioX = 0.5;    // Radio en X
-    float radioY = 0.7;    // Radio en Y
-    float radioZ = 0.3;    // Radio en Z
+    float radioY = 0.7;    // Radio en Y (más alto)
+    float radioZ = 0.3;    // Radio en Z (más delgado)
     int numSegmentos = 12; // Número de segmentos para hacer el óvalo
 
     // Generamos los vértices en forma de óvalo
     for (int i = 0; i < numSegmentos; i++) {
         float angulo = (2.0f * M_PI * i) / numSegmentos;
-        float siguienteAngulo = (2.0f * M_PI * (i + 1)) / numSegmentos;
+       // float siguienteAngulo = (2.0f * M_PI * (i + 1)) / numSegmentos;
         
         // Vértices superiores
         vertices.push_back({

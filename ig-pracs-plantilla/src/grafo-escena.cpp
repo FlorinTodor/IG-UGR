@@ -405,7 +405,7 @@ GrafoEstrellaX::GrafoEstrellaX(unsigned n)
    agregar(scale(glm::vec3(1/2.6,1/2.6,1/2.6))); // Escala inversa para los conos
    agregar(translate(glm::vec3(1.3,1.3,0))); //centrar conos encima de la estrella
    
-   for(int i=0;i<n;i++){   
+   for(unsigned i=0;i<n;i++){   
       agregar(rotate(float(2*M_PI/n),glm::vec3(0,0,1)));    // Rotación para que los conos se distribuyan en la estrella
       agregar(new ConoEstrellaX());
    
@@ -430,7 +430,6 @@ void GrafoEstrellaX::actualizarEstadoParametro(const unsigned iParam, const floa
          {
             v = 0 + 2*M_PI*2.5*t_sec; 
             *rotacionEstrella = rotate( v, glm::vec3( 1.0, 0.0, 0.0));
-         *rotacionEstrella = rotate(v, glm::vec3(1.0, 0.0, 0.0));
          }
          break;
    }

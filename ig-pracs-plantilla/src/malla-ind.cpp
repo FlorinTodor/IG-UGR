@@ -406,13 +406,10 @@ El vértice central tiene color blanco.
 
 El resto de vértices tienen colores cuyas componentes R, G y B coin-
 ciden con sus coordenadas X, Y y Z, respectivamente.
-
-
-/*
-
- Ejercicios ADICIONALES PRACTICA 1
-
 */
+
+//Ejercicios ADICIONALES PRACTICA 1
+
 EstrellaZ::EstrellaZ(unsigned n) : 
 MallaInd("EstrellaZ " + std::to_string(2 * n) + " triángulos y " + std::to_string(2 * n + 1) + " vértices") {
    ponerColor({0.0, 1.0, 0.0}); //malla verde
@@ -451,7 +448,7 @@ MallaInd("EstrellaZ " + std::to_string(2 * n) + " triángulos y " + std::to_stri
       unsigned exterior1 = 1 + 2 * i ; // Vértice exterior 1
       unsigned interior1 = 2 + 2 * i; // Vértice interior 1
       unsigned exterior2 = 1 + 2 * ((i + 1) % n);  // Vértice exterior 2
-      unsigned interior2 = 2 + 2 * ((i + 1) % n); // Vértice interior 2
+     // unsigned interior2 = 2 + 2 * ((i + 1) % n); // Vértice interior 2
 
       triangulos.push_back({0, exterior1, interior1}); // Triángulo interior
       triangulos.push_back({0, interior1, exterior2}); // Triángulo exterior
@@ -488,7 +485,7 @@ CasaX::CasaX()
             {1,4,9}, //izquierda
          } ;
 
-   for(int i=0; i<vertices.size(); i++) {
+   for(unsigned i=0; i<vertices.size(); i++) {
       col_ver.push_back(vertices[i]);
    }
 }
@@ -605,7 +602,7 @@ PiramideEstrellaZ::PiramideEstrellaZ(unsigned n)
       unsigned exterior1 = 1 + 2 * i ; // Vértice exterior 1
       unsigned interior1 = 2 + 2 * i; // Vértice interior 1
       unsigned exterior2 = 1 + 2 * ((i + 1) % n);  // Vértice exterior 2
-      unsigned interior2 = 2 + 2 * ((i + 1) % n); // Vértice interior 2
+    //  unsigned interior2 = 2 + 2 * ((i + 1) % n); // Vértice interior 2
 
       // Triángulos de la base
       triangulos.push_back({0, exterior1, interior1});

@@ -1,11 +1,12 @@
-// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
-// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+// Nombre: Ricardo, Apellidos: Ruiz Fernández de Alba, Titulación: GIM
+// email: ricardoruiz@correo.ugr.es, DNI: 77168601J
 
-
+// *********************************************************************
+// **
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
 // ** Implementación de la clase 'AplicacionIG' y puntero a la aplicación actual.
-// ** Copyright (C) 2016-2024 Carlos Ureña
+// ** Copyright (C) 2016-2023 Carlos Ureña
 // **
 // ** Implementación de los métodos de la clase
 // ** Puntero a la aplicación actual, inicialmente nulo (la instancia se crea en la func. 'main')
@@ -32,15 +33,15 @@
 #include "materiales-luces.h"
 #include "animacion.h"
 
-AplicacionIG * aplicacionIG = nullptr ;
+AplicacionIG * apl = nullptr ;
 
 // ---------------------------------------------------------------------
 // F.G. del evento de cambio de tamaño de la ventana (del framebuffer)
 
 void FGE_CambioTamano( GLFWwindow* ventana_glfw, int nuevo_ancho_fb, int nuevo_alto_fb )
 {
-   assert( aplicacionIG != nullptr );
-   aplicacionIG->cambioTamano( nuevo_ancho_fb, nuevo_alto_fb );
+   assert( apl != nullptr );
+   apl->cambioTamano( nuevo_ancho_fb, nuevo_alto_fb );
 }
 
 // -----------------------------------------
@@ -62,7 +63,7 @@ AplicacionIG::AplicacionIG()
 
    // escribe características de OpenGL en pantalla (ver 'ig-aux.cpp')
    InformeOpenGL() ; 
- 
+
    // Crea el objeto Cauce (compila los 'shaders')
    cauce = new Cauce() ;
    assert( cauce != nullptr );
@@ -78,14 +79,17 @@ AplicacionIG::AplicacionIG()
    //
    // hacer 'push_back' en el vector de escenas de una instancia de 'Escena2'
    // ......
+
    escenas.push_back( new Escena2() );
+
 
    // COMPLETAR: práctica 3: añadir escena de la práctica 3
    //
    // hacer 'push_back' en el vector de escenas de una instancia de 'Escena3'
    // ......
+
    escenas.push_back( new Escena3() );
-   escenas.push_back( new EscenaExamen() );
+
 
    // COMPLETAR: práctica 4: añadir escena de la práctica 4
    //
@@ -135,30 +139,24 @@ void AplicacionIG::inicializarGLFW(  )
    // Especificar versión de OpenGL y parámetros de compatibilidad que se querrán
    // (pedimos una version 'compatible' con OpenGL 3.3 'core', creo que eso incluye versiones posteriores)
    
-   constexpr int version_major = 3 ;
-   constexpr int version_minor = 3 ;
-
-   glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, version_major ); 
-   glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, version_minor ); 
+   glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 ); 
+   glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 ); 
    glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE ); 
    glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-
    
-   // Calcula la posición y tamaño de la ventana, usando 
-   // para ello el tamaño del escritorio (ver 'ig-aux.cpp')
-   // Escribe posición en 'px' y 'py' y tamaño en 'wx' y 'wy'
-   TamPosVentanaGLFW( wx, wy, px, py ); 
+   // Crear y posicionar la ventana,
+   TamPosVentanaGLFW( wx, wy, px, py ); // calcula pos. y tam., usando tam. escritorio (ver 'ig-aux.cpp')
    
-   // Crear la ventana GLFW
-   ventana_glfw = glfwCreateWindow( wx, wy, "Practicas IG GIM+GIADE (24-25)", nullptr, nullptr ); // crea ventana
+   ventana_glfw = glfwCreateWindow( wx, wy, "Practicas IG GIM (23-24)", nullptr, nullptr ); // crea ventana
    assert( ventana_glfw != nullptr );
 
    glfwSetWindowPos( ventana_glfw, px, py ); // posiciona la ventana
-   
+
+
    // Establecer el 'rendering context' de la ventana como el 'context' actual
    glfwMakeContextCurrent( ventana_glfw );
 
-   // Leer el tamaño real actual de la ventana (en 'ventana_tam_x'/ 'ventana_tam_y')
+   // Leer el tamaño real actual de la ventana (ventana_tam_x/_y)
    // * Los eventos de ratón del gestor de ventanas usan el tamaño de la ventana.
    // * OpenGL usa el tamaño del framebuffer 
    // En algunos casos ambos tamaños pueden ser distintos, así que a veces es necesario 
@@ -171,7 +169,7 @@ void AplicacionIG::inicializarGLFW(  )
    mouse_pos_factor = fbx>0 ? fbx/wx : 1 ;  // en displays macos retina, esto es 2
    cout << "Factor de posición del mouse == " << mouse_pos_factor << endl ;
 
-   // Define la imagen que se usará para el icono de la ventana glfw
+   // define la imagen que se usará para el icono de la ventana glfw
    // (únicamente en Windows y Linux, en macOs no hace nada)
    FijarImagenIconoVentana( ventana_glfw );
 
@@ -226,7 +224,7 @@ void AplicacionIG::visualizarFrame()
    CError();
 
    // visualizar las normales del objeto.
-   if ( aplicacionIG->visualizar_normales ) 
+   if ( apl->visualizar_normales ) 
       escena->visualizarNormales(  );
    
 
@@ -265,7 +263,7 @@ void AplicacionIG::buclePrincipalGLFW(  )
 
       Objeto3D * objeto = escenas[ind_escena_act]->objetoActual() ; assert( objeto != nullptr );
       const bool animacion_activa = AnimacionesActivadas() && 0 < objeto->leerNumParametros() ;
-      
+
       // 3. procesar eventos
 
       if ( animacion_activa )                  // si hay alguna animación en curso

@@ -1,10 +1,12 @@
-// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
-// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+// Nombre: Ricardo, Apellidos: Ruiz Fernández de Alba, Titulación: GIM
+// email: ricardoruiz@correo.ugr.es, DNI: 77168601J
 
+// *********************************************************************
+// **
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
-// ** Gestión de escenas (declaraciones). Clase 'Escena' y derivadas.
-// ** Copyright (C) 2016-2024 Carlos Ureña
+// ** Gestión de escenas (declaraciones)
+// ** Copyright (C) 2016-2023 Carlos Ureña
 // **
 // ** Declaración de la clase 'Escena' y derivadas (una por cada práctica)
 // **
@@ -116,7 +118,6 @@ class Escena1 : public Escena
 } ;
 
 
-
 // -------------------------------------------------------------------------
 // COMPLETAR: Práctica 2, 3, 4 y 5.
 // Añadir la declaración de las clases Escena2, Escena3, etc ..... para definir
@@ -125,22 +126,14 @@ class Escena1 : public Escena
 class Escena2 : public Escena
 {
    public:
-      Escena2() ;
-} ;
+      Escena2();
+};
+
 
 class Escena3 : public Escena
 {
    public:
-      Escena3() ;
-} ;
-
-class EscenaExamen : public Escena
-{
-   public:
-      EscenaExamen() ;
-} ;
-
-
-
+      Escena3();
+};
 
 #endif // ESCENA_H

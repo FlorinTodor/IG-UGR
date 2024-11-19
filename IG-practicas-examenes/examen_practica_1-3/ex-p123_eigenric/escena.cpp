@@ -1,11 +1,12 @@
-// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
-// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+// Nombre: Ricardo, Apellidos: Ruiz Fernández de Alba, Titulación: GIM
+// email: ricardoruiz@correo.ugr.es, DNI: 77168601J
 
-
+// *********************************************************************
+// **
 // ** Asignatura: INFORMÁTICA GRÁFICA
 // ** 
-// ** Gestión de escenas (implementaciones). Clase 'Escena' y derivadas.
-// ** Copyright (C) 2016-2024 Carlos Ureña
+// ** Gestión de escenas (implementaciones)
+// ** Copyright (C) 2016-2023 Carlos Ureña
 // **
 // ** Implementación de la clase 'Escena' y derivadas (una por cada práctica)
 // **
@@ -44,9 +45,7 @@
 #include "materiales-luces.h"
 #include "escena.h"
 #include "modelo-jer.h"
-#include "prueba.h"
-#include "grafo-escena.h"  // aquí deberían estar definidas las clases de los muñecos y grafos
-#include "examen-ec-p123-ayer.h"
+#include "examen-ec-p123.h"
 
 
 // -----------------------------------------------------------------------------------------------
@@ -76,17 +75,17 @@ Escena::Escena()
 
 void Escena::visualizarGL( )
 {
-   assert( aplicacionIG != nullptr );
-   assert( aplicacionIG->cauce != nullptr );
+   assert( apl != nullptr );
+   assert( apl->cauce != nullptr );
 
    using namespace std ;
    CError();
    
    // recuperar el cauce del objeto 'apl' (simplemente para acortar notación)
-   Cauce * cauce = aplicacionIG->cauce ;
+   Cauce * cauce = apl->cauce ;
 
    // desactivar el modo de selección, por si acaso
-   aplicacionIG->modo_seleccion = false ;
+   apl->modo_seleccion = false ;
 
    // activar el cauce
    cauce->activar() ;
@@ -98,17 +97,16 @@ void Escena::visualizarGL( )
    //       cauce gráfico (es decir: activar la cámara actual)
    CamaraInteractiva * camara = camaras[ind_camara_actual] ; assert( camara != nullptr );
 
-   const float ratio_vp = float(aplicacionIG->ventana_tam_y)/float(aplicacionIG->ventana_tam_x) ;
+   const float ratio_vp = float(apl->ventana_tam_y)/float(apl->ventana_tam_x) ;
    
    //cout << "Escena::visualizarGL: dimen " << apl->ventana_tam_x << " x " << apl->ventana_tam_y << ", y/x == " << ratio_vp << endl ;
 
    camara->fijarRatioViewport( ratio_vp );
-   //cout << endl << __FUNCTION__ << ": índice cámara actual == " << ind_camara_actual << endl ;
    camara->activar( *cauce ) ;
    CError();
 
    // dibujar los ejes, si procede
-   if ( aplicacionIG->dibujar_ejes  )
+   if ( apl->dibujar_ejes  )
       DibujarEjesSolido( *cauce ) ; // ver 'ig-aux.cpp' para la definición.
 
    // fijar el color por defecto (inicial) en el cauce para dibujar los objetos 
@@ -116,7 +114,7 @@ void Escena::visualizarGL( )
    cauce->fijarColor( 1.0, 1.0, 1.0 );
    
    // fijar el modo de normales (útil para la práctica 4)
-   cauce->fijarUsarNormalesTri( aplicacionIG->usar_normales_tri );
+   cauce->fijarUsarNormalesTri( apl->usar_normales_tri );
 
    // COMPLETAR: práctica 1: Configurar el modo de polígonos con 'glPolygonMode'
    //  
@@ -124,23 +122,17 @@ void Escena::visualizarGL( )
    // que puede ser: puntos,lineas o relleno.
    //
    // ...................
-   switch(aplicacionIG->modo_visu){
-      case ModosVisu::lineas:
-         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-         break;
-      case ModosVisu::puntos:
-         glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-         break;
-      case ModosVisu::relleno:
-         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-         break;
-      default:
-         throw std::invalid_argument("Error en escena.cpp/VisualizarGL");
+
+   switch(apl->modo_visu) {
+      case ModosVisu::relleno : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); break;
+      case ModosVisu::lineas : glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
+      case ModosVisu::puntos: glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); break;
+      case ModosVisu::num_modos: break;
    }
 
    CError();
 
-   if ( aplicacionIG->iluminacion )
+   if ( apl->iluminacion )
    {
       // COMPLETAR: práctica 4: activar evaluación del MIL (y desactivar texturas)
       //
@@ -165,10 +157,12 @@ void Escena::visualizarGL( )
    // COMPLETAR: práctica 1: visualizar el objeto actual ('objeto')
 
    objeto->visualizarGL();
+
+
    // Visualizar las aristas del objeto, si procede (es decir: en modo relleno, con 
    // visualización de aristas activada)
 
-   if ( aplicacionIG->dibujar_aristas && aplicacionIG->modo_visu == ModosVisu::relleno ) 
+   if ( apl->dibujar_aristas && apl->modo_visu == ModosVisu::relleno ) 
    {
       // desactivar iluminación y texturas (podrían estarlo a partir de prác. 4)
       cauce->fijarEvalMIL( false );
@@ -182,8 +176,8 @@ void Escena::visualizarGL( )
       //      - fijar el modo de polígonos a modo 'lineas'
       // 
       // ...........
-      aplicacionIG->cauce->fijarColor(255,255,255);
-      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+      cauce->fijarColor({0, 0, 0, 1});
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       objeto->visualizarGeomGL();
    }
    
@@ -195,9 +189,9 @@ void Escena::visualizarGL( )
 void Escena::visualizarGL_Seleccion(  )
 {
    // Comprobar algunas precondiciones y recuperar el cauce (para acortar la anotación)
-   assert( aplicacionIG != nullptr );
-   assert( aplicacionIG->cauce != nullptr );
-   Cauce * cauce = aplicacionIG->cauce ;
+   assert( apl != nullptr );
+   assert( apl->cauce != nullptr );
+   Cauce * cauce = apl->cauce ;
    CError();
 
    // COMPLETAR: práctica 5: visualizar el objeto raiz de esta escena en modo selección
@@ -238,8 +232,8 @@ void Escena::visualizarGL_Seleccion(  )
 void Escena::visualizarNormales(  )
 {
    // comprobar precondiciones
-   assert( aplicacionIG != nullptr );
-   Cauce * cauce = aplicacionIG->cauce ; assert( cauce != nullptr );
+   assert( apl != nullptr );
+   Cauce * cauce = apl->cauce ; assert( cauce != nullptr );
 
    // COMPLETAR: práctica 4: visualizar normales del objeto actual de la escena 
    //
@@ -309,23 +303,18 @@ ColFuentesLuz * Escena::colFuentes()
 }
 // -----------------------------------------------------------------------------------------------
 
-constexpr bool lunes = false ;
-
 Escena1::Escena1()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 1." << endl ;
 
+   // Examen P123
+
+   objetos.push_back( new P1MallaCubo() );
+
+   //
 
    objetos.push_back( new Cubo() );
-   objetos.push_back( new CuboColores() );
-   objetos.push_back( new Tetraedro() );
-   objetos.push_back( new EstrellaZ(8));
-   objetos.push_back( new CasaX());
-   objetos.push_back( new MallaTriangulo());
-   objetos.push_back( new MallaCuadrado());
-   objetos.push_back( new MallaPiramideL());
-  
 
    // COMPLETAR: práctica 1: añadir resto de objetos a la escena 1
    //
@@ -333,6 +322,24 @@ Escena1::Escena1()
    // array 'objetos' otros objetos de la práctica 1
    // 
    // .......
+
+   objetos.push_back( new Tetraedro() );
+   objetos.push_back( new CuboColores() );
+   
+   // Ejercicios Adicionales
+
+   // Ejercicio 1
+   objetos.push_back( new EstrellaZ(8) );
+   objetos.push_back( new EstrellaX(5) );
+   objetos.push_back( new EstrellaY(10) );
+
+   // Ejercicio 2
+   objetos.push_back( new CasaX() );
+
+   // Ejercicio 3
+   objetos.push_back( new MallaTriangulo() );
+   objetos.push_back( new MallaCuadrado() );
+   objetos.push_back( new MallaPiramideL() );
 
 }
 
@@ -342,30 +349,32 @@ Escena1::Escena1()
 // Añadir la implementación del constructor de la clase 'Escena2' para construir
 // los objetos que se indican en los guiones de las práctica 2
 // .......
+
 Escena2::Escena2()
 {
-   using namespace std ;
-   cout << "Creando objetos de la práctica 2." << endl ;
+   using namespace std;
+   cout << "Creando objetos de la práctica 2." << endl;
 
-   objetos.push_back( new Cilindro( 2, 16 ) );
-   objetos.push_back( new Cono( 2, 16 ) );
-   objetos.push_back( new Esfera( 25,200 ) );
-   objetos.push_back (new PiramideEstrellaZ(8));
-   objetos.push_back (new RejillaY(8,8));
-   objetos.push_back (new MallaTorre(8));
-  
-   // USO DE PLY
-   objetos.push_back(new MallaPLY("beethoven.ply"));
-   objetos.push_back(new MallaPLY("big_dodge.ply"));
-   objetos.push_back(new MallaRevolPLY("peon.ply", 50));
-   objetos.push_back(new MallaPLY("f16.ply")); //pruebas de  otros ply
+   // Ejercicio Examen 2
+   objetos.push_back( new P2Rejilla(12, 16) );
+
+   // Ejercicio Adicional 1
+   objetos.push_back( new PiramideEstrellaZ(5) );
+
+   // Ejercicio Adicional 2
+   objetos.push_back( new RejillaY(10, 13) );
+
+   // Ejercicio Adicional 3
+   objetos.push_back( new MallaTorre(5) );
+
+
+   objetos.push_back( new MallaPLY("beethoven.ply") );
+   objetos.push_back( new MallaPLY("big_dodge.ply") );
+   objetos.push_back( new MallaRevolPLY("peon.ply", 17) );
+   objetos.push_back( new Cilindro(10, 50) );
+   objetos.push_back( new Cono(10, 50) );
+   objetos.push_back( new Esfera(50, 50) );
    
-   // COMPLETAR: práctica 2: añadir resto de objetos a la escena 2
-   //
-   // Añadir sentencias 'push_back' adicionales para agregar al 
-   // array 'objetos' otros objetos de la práctica 2
-   // 
-   // .......
 }
 
 
@@ -375,25 +384,25 @@ Escena2::Escena2()
 // Añadir la implementación del constructor de la clase Escena3 para construir
 // los objetos que se indican en los guiones de las práctica 3
 // .......
+
 Escena3::Escena3()
 {
-   using namespace std ;
-   cout << "Creando objetos de la práctica 3." << endl ;
-  objetos.push_back( new MinecraftMuñeco());   
-   objetos.push_back( new AmongUsMuñeco());
-   //objetos.push_back( new HelicopteroCompleto());
-   objetos.push_back ( new GrafoEstrellaX(8));
-   objetos.push_back ( new GrafoCubos());
-}
-
-EscenaExamen::EscenaExamen(){
    using namespace std;
-   cout<< "Objetos examen"<<endl;
-   objetos.push_back(new Ejercicio1());
-   objetos.push_back(new Ejercicio2(2));
-   objetos.push_back(new Ejercicio3(2.0,3.0));
+   cout << "Creando objetos de la práctica 3." << endl;
+
+   // Ejercicio 3 Examen
+   objetos.push_back( new P3Caja() );
+
+   objetos.push_back( new Motherboard(0.0, 0.0) );
+
+   // Ejercicio Adicional 1
+   objetos.push_back( new GrafoEstrellaX(6, 0) );
+
+   // Ejercicio Adicional 2
+   objetos.push_back( new GrafoCubos() );
 
 }
+
 
 // ----------------------------------------------------------------------------
 // COMPLETAR: práctica 4: escribir implementación del constructor de 'Escena4'. 

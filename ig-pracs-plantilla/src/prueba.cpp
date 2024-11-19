@@ -120,8 +120,17 @@ unsigned AmongUsMuñeco::leerNumParametros() const {
 void AmongUsMuñeco::actualizarEstadoParametro(const unsigned iParam, const float tSec) {
     switch (iParam) {
         case 0: // Movimiento del cuerpo (flotando)
-            *movimientoCuerpo = translate(vec3(0.0f, 0.1f * sin(tSec*2.0f), 0.0f));
+        {
+            float desplazamiento_max = 0.5f;
+            float desplazamiento_min = 0.0f;
+            float frecuencia = 1.0f;
+
+            float desplazamientoActual = desplazamiento_max + (desplazamiento_min - desplazamiento_max) * 0.5f * 
+                                       (1.0f - cos(2.0 * M_PI * frecuencia * tSec));
+
+            *movimientoCuerpo = translate(vec3(desplazamientoActual, 0.0f, 0.0f));
             break;
+        }
         case 1: // Rotación del visor
             *rotacionVisor = rotate(float(M_PI/8 * sin(tSec)), vec3{0.0, 1.0, 0.0});
             break;

@@ -17,10 +17,10 @@ class Ejercicio1 : public MallaInd
         Ejercicio1 ();
 };
 
-class Ejercicio2 : public MallaInd
+class Ejercicio2: public MallaInd
 {
-    public:
-        Ejercicio2(int n);
+    public: 
+    Ejercicio2 (int n);
 };
 
 class Ejercicio3 : public NodoGrafoEscena
@@ -34,7 +34,7 @@ class Ejercicio3 : public NodoGrafoEscena
         mat4 *pm_matriz_sca_inferior = nullptr;
         mat4 *pm_matriz_rot_superior = nullptr;
         float h;
+        float w;
 };
-
 
 #endif

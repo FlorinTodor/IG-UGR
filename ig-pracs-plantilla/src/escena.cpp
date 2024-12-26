@@ -46,7 +46,7 @@
 #include "modelo-jer.h"
 #include "prueba.h"
 #include "grafo-escena.h"  // aquí deberían estar definidas las clases de los muñecos y grafos
-#include "examen-ec-p123-ayer.h"
+#include "examen-ec-p123.h"
 
 
 // -----------------------------------------------------------------------------------------------
@@ -317,14 +317,15 @@ Escena1::Escena1()
    cout << "Creando objetos de la práctica 1." << endl ;
 
 
-   objetos.push_back( new Cubo() );
-   objetos.push_back( new CuboColores() );
-   objetos.push_back( new Tetraedro() );
-   objetos.push_back( new EstrellaZ(8));
-   objetos.push_back( new CasaX());
-   objetos.push_back( new MallaTriangulo());
-   objetos.push_back( new MallaCuadrado());
-   objetos.push_back( new MallaPiramideL());
+  // objetos.push_back( new Cubo() );
+  // objetos.push_back( new CuboColores() );
+   //objetos.push_back( new Tetraedro() );
+  // objetos.push_back( new EstrellaZ(8));
+   //objetos.push_back( new CasaX());
+   //objetos.push_back( new MallaTriangulo());
+  // objetos.push_back( new MallaCuadrado());
+   //objetos.push_back( new MallaPiramideL());
+   objetos.push_back(new Ejercicio1());
   
 
    // COMPLETAR: práctica 1: añadir resto de objetos a la escena 1
@@ -346,7 +347,8 @@ Escena2::Escena2()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 2." << endl ;
-
+   objetos.push_back(new Ejercicio2(8));
+   /*
    objetos.push_back( new Cilindro( 2, 16 ) );
    objetos.push_back( new Cono( 2, 16 ) );
    objetos.push_back( new Esfera( 25,200 ) );
@@ -359,7 +361,7 @@ Escena2::Escena2()
    objetos.push_back(new MallaPLY("big_dodge.ply"));
    objetos.push_back(new MallaRevolPLY("peon.ply", 50));
    objetos.push_back(new MallaPLY("f16.ply")); //pruebas de  otros ply
-   
+   */
    // COMPLETAR: práctica 2: añadir resto de objetos a la escena 2
    //
    // Añadir sentencias 'push_back' adicionales para agregar al 
@@ -379,21 +381,17 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
+   /*
   objetos.push_back( new MinecraftMuñeco());   
    objetos.push_back( new AmongUsMuñeco());
    //objetos.push_back( new HelicopteroCompleto());
    objetos.push_back ( new GrafoEstrellaX(8));
-   objetos.push_back ( new GrafoCubos());
+   objetos.push_back ( new GrafoCubos());*/
+
+   objetos.push_back( new Ejercicio3(5,0.2));
 }
 
-EscenaExamen::EscenaExamen(){
-   using namespace std;
-   cout<< "Objetos examen"<<endl;
-   objetos.push_back(new Ejercicio1());
-   objetos.push_back(new Ejercicio2(2));
-   objetos.push_back(new Ejercicio3(2.0,3.0));
 
-}
 
 // ----------------------------------------------------------------------------
 // COMPLETAR: práctica 4: escribir implementación del constructor de 'Escena4'. 
@@ -410,6 +408,5 @@ EscenaExamen::EscenaExamen(){
 // Añadir la implementación del constructor de la clase Escena5 para construir
 // los objetos que se indican en el guion de la práctica 5
 // .......
-
 
 

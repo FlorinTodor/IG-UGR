@@ -95,9 +95,8 @@ LataPeones::LataPeones() {
     agregar(actual);
 }
 
-
 // PRACTICA 5
-/*
+
 VariasLatasPeones::VariasLatasPeones() {
     unsigned identPepsi = 5;
     unsigned identUGR = 6;
@@ -115,6 +114,7 @@ VariasLatasPeones::VariasLatasPeones() {
     lataUGR->agregar(translate(vec3(2.0, 0.0, 0.0)));
     lataUGR->agregar(new Lata("window-icon.jpg"));
 
+    ponerIdentificador(7);
     agregar(lataPepsi);
     agregar(lataUGR);
-}*/
+}

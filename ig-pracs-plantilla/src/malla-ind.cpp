@@ -388,6 +388,7 @@ CuboColores::CuboColores()
          (v.z + 1.0f) / 2.0f   // B: normalizado entre 0 y 1
       });
    }
+   calcularNormales();
 }
 
 
@@ -441,6 +442,7 @@ Tetraedro::Tetraedro() : MallaInd (" tetaedro 4 vértices y 4 caras "){
       {1, 3, 2}
    };
 
+   calcularNormales();
 
 }
 
@@ -828,5 +830,4 @@ Cubo24::Cubo24() {
    };
 
    calcularNormales();
-   
 }

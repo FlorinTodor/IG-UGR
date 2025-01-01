@@ -147,13 +147,13 @@ void MallaRevol::inicializar
             // Añadimos el nuevo vertice a la tabla de vertices
             vertices.push_back(nuevo_vertice);  
 
-            // PRACTICA 4
+            // PRACTICA 4, calculamos las coordenadas de textura
             vec3 aux = vec3(normales_n[j][0] * cos(tita), normales_n[j][1], -normales_n[j][0] * sin(tita));
             if (length(aux) != 0.0)
                normalize(aux);
             nor_ver.push_back(aux);
             
-            cc_tt_ver.push_back({float(i) / (num_copias-1), 1-t[j]});
+            cc_tt_ver.push_back({float(i) / (num_copias-1), 1-t[j]}); // coordenadas de textura
 
          }
       }

@@ -97,17 +97,18 @@ NodoGrafoEscena::NodoGrafoEscena()
 
 // -----------------------------------------------------------------------------
 // Visualiza usando OpenGL
-
+// Visualiza usando OpenGL
 void NodoGrafoEscena::visualizarGL(  )
 {
    using namespace std ;
    assert( aplicacionIG != nullptr );
 
-   //cout << "Entra " << __FUNCTION__ << ": " << leerNombre() << endl ;
-
     // comprobar que hay un cauce y una pila de materiales y recuperarlos.
    Cauce *          cauce           = aplicacionIG->cauce ;           assert( cauce != nullptr );
    PilaMateriales * pila_materiales = aplicacionIG->pila_materiales ; assert( pila_materiales != nullptr );
+
+   if (aplicacionIG->iluminacion)
+      pila_materiales->push();
 
    // COMPLETAR: práctica 3: implementar la visualización del nodo
    //
@@ -120,62 +121,61 @@ void NodoGrafoEscena::visualizarGL(  )
    // 1. Si el objeto tiene un color asignado (se comprueba con 'tieneColor')
    //     - hacer push del color actual del cauce (con 'pushColor') y después
    //     - fijar el color en el cauce (con 'fijarColor'), usando el color del objeto (se lee con 'leerColor()')
-   // 2. Guardar copia de la matriz de modelado (con 'pushMM'), 
-   // 3. Para cada entrada del vector de entradas:
-   //     - si la entrada es de tipo objeto: llamar recursivamente a 'visualizarGL'
-   //     - si la entrada es de tipo transformación: componer la matriz (con 'compMM')
-   // 4. Restaurar la copia guardada de la matriz de modelado (con 'popMM')
-   // 5. Si el objeto tiene color asignado:
-   //     - restaurar el color original a la entrada (con 'popColor')
 
+   if(tieneColor()){
+      cauce->pushColor();
+      cauce->fijarColor(leerColor());
+   }
 
   
 
-     if (tieneColor()) {
-       cauce->pushColor();
-       cauce->fijarColor(leerColor());
+   // 2. Guardar copia de la matriz de modelado (con 'pushMM'), 
+   cauce->pushMM();
+
+   // 3. Para cada entrada del vector de entradas:
+   //     - si la entrada es de tipo objeto: llamar recursivamente a 'visualizarGL'
+   //     - si la entrada es de tipo transformación: componer la matriz (con 'compMM')
+    for( const auto & entrada : entradas)
+      {
+      switch( entrada.tipo )
+         {
+         case TipoEntNGE::objeto : // entrada objeto:
+            entrada.objeto->visualizarGL();//llamar recursivamente a visualizarGL
+         break ;
+         case TipoEntNGE::transformacion : // entrada transf.:
+            cauce->compMM( *(entrada.matriz)); // componer matriz
+         break ;
+         case TipoEntNGE::material : // si la entrada es de tipo ’material’
+            if ( aplicacionIG->iluminacion ) // y si está activada la iluminación
+            pila_materiales->activar( entrada.material );
+         break ;
+      }
    }
 
-    cauce->pushMM();  // Guardar copia de la matriz de modelado
 
-   // Recorrer todas las entradas en el nodo
-   for (const auto& entrada : entradas) {
-       if (entrada.tipo== TipoEntNGE::objeto) {
-           // Si es un objeto, visualizar recursivamente
-           entrada.objeto->visualizarGL();
-       } else if (entrada.tipo== TipoEntNGE::transformacion) {
-           // Si es una transformación, componer la matriz de modelado
-           cauce->compMM(*entrada.matriz);
-       }
-   }
-
-   cauce->popMM();  // Restaurar la matriz de modelado
-
-   // Restaurar el color si se cambió
-   if (tieneColor()) {
-       cauce->popColor();
-   }
-
+   // 4. Restaurar la copia guardada de la matriz de modelado (con 'popMM')
+   cauce->popMM();
    
-    // COMPLETAR: práctica 4: añadir gestión de los materiales cuando la iluminación está activada    
+
+   // 5. Si el objeto tiene color asignado:
+   //     - restaurar el color original a la entrada (con 'popColor')
+   if(tieneColor()){
+      cauce->popColor();
+   }
+
+
+
+   // COMPLETAR: práctica 4: añadir gestión de los materiales cuando la iluminación está activada    
    //
-   // Si 'apl->iluminacion' es 'true', se deben de gestionar los materiales:
+   // Si 'aplicacionIG->iluminacion' es 'true', se deben de gestionar los materiales:
    //
    //   1. al inicio, hacer 'push' de la pila de materiales (guarda material actual en la pila)
    //   2. si una entrada es de tipo material, activarlo usando a pila de materiales
    //   3. al finalizar, hacer 'pop' de la pila de materiales (restaura el material activo al inicio)
-
-   // ......
-
-   if ( aplicacionIG->iluminacion ) {
-       pila_materiales->push();
-       for (const auto& entrada : entradas) {
-           if (entrada.tipo == TipoEntNGE::material) {
-               pila_materiales->activar(entrada.material);
-           }
-       }
-       pila_materiales->pop();
+   if (aplicacionIG->iluminacion){
+      pila_materiales->pop();
    }
+
 
 
 }
@@ -519,7 +519,7 @@ void GrafoCubos::actualizarEstadoParametro(const unsigned iParam, const float t_
 /* PRACTICA 4*/
 
 NodoCubo24::NodoCubo24(){
-   agregar( new Material( new Textura("window-icon.jpg") , 0.5, 0.3, 0.7, 100.0) );
+   agregar( new Material( new Textura("window-icon.jpg") , 0.5, 0.8, 0.7, 100.0) );
    agregar( new Cubo24() );
 }
 

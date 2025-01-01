@@ -181,10 +181,10 @@ void Material::activar( )
    // COMPLETAR: práctica 4: activar un material
    // .....
 
-    if (textura != nullptr)
-      textura->activar();
-   else
-      cauce->fijarEvalText(false);
+   if (textura != nullptr){
+         textura->activar();}
+   else{
+      cauce->fijarEvalText(false);}
 
 
    cauce->fijarParamsMIL(k_amb, k_dif, k_pse, exp_pse);
@@ -256,7 +256,7 @@ void ColFuentesLuz::activar( )
    //   - crear un 'std::vector' con los colores y otro con las posiciones/direcciones,
    //   - usar el método 'fijarFuentesLuz' del cauce para activarlas
    // .....
-    std::vector<glm::vec3> colores;
+   std::vector<glm::vec3> colores;
    std::vector<glm::vec4> direcciones;
 
    for (int i = 0; i < vpf.size(); i++) {

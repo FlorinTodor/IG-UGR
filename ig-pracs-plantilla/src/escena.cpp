@@ -153,7 +153,6 @@ void Escena::visualizarGL( )
       // ....
 
        cauce->fijarEvalMIL(true);
-
        col_fuentes->activar();
       // // * activar el material inicial (usando 'pila_materiales')
        aplicacionIG->pila_materiales->activar(material_ini);

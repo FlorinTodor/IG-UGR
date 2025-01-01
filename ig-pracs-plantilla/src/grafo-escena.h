@@ -169,6 +169,12 @@ class GrafoCubos : public NodoGrafoEscena
 // Clase GrafoCubos
 
 
+/* PRACTICA 4*/
+
+class NodoCubo24 : public NodoGrafoEscena {
+   public:
+      NodoCubo24();
+};
 
 
 

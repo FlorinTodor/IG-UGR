@@ -49,74 +49,125 @@ void MallaRevol::inicializar
 )
 {
    using namespace glm ;
+   // COMPLETAR: práctica 4: creación de las normales y materiales/texturas
+      vector<vec3> normales_m;
+
+      //Aristas
+      for (int i = 0; i < perfil.size()-1; i++) {
+         float v_1 = (perfil[i+1] - perfil[i])[0];
+         float v_2 = (perfil[i+1] - perfil[i])[1];
+         vec3 m_i(vec3(v_2, -v_1, 0.0f));
+
+         if (length(m_i) != 0.0)
+            m_i = normalize(m_i);
+         
+         normales_m.push_back(m_i);
+      }
+
+      //Vértices
+      vector<vec3> normales_n;
+
+      normales_n.push_back(normales_m[0]);
+      for (int i = 1; i < perfil.size()-1; i++) {
+         normales_n.push_back(normalize(normales_m[i-1] + normales_m[i]));
+      }
+
+      normales_n.push_back(normales_m[perfil.size() - 2]);
+
+      //Vectores d y t
+      vector<float> d, t, sumas_parciales;
+      float suma_total;
+
+      for (int i = 0; i < perfil.size()-1; i++) {
+         d.push_back(sqrt(length(perfil[i+1] - perfil[i])));
+      }
+
+      sumas_parciales.push_back(0.0f);
+      for (int i = 1; i < perfil.size(); i++) {
+         sumas_parciales.push_back(sumas_parciales[i-1] + d[i-1]);
+      }
+
+      suma_total = sumas_parciales[perfil.size()-1];
+      t.push_back(0.0f);
+      for (int i = 1; i < perfil.size(); i++)
+         t.push_back(sumas_parciales[i] / suma_total);
+
+
    
    // COMPLETAR: práctica 2: implementar algoritmo de creación de malla de revolución
    //
    // Escribir el algoritmo de creación de una malla indexada por revolución de un 
    // perfil, según se describe en el guion de prácticas.
    //
-   // ............................... 
+   // ...............................
+
+   /*
+   Los pseudocódigos de los algoritmos de creación de mallas por revolución se encuentran en el pdf
+
+   */
+      //Rellenamos la tabla de vertices
+      for (unsigned i = 0; i < num_copias; i++) {
+         for (unsigned j = 0; j < perfil.size(); j++) {
+
+            /**
+             *   tita es el ángulo de rotación calculado en radianes
+             */
+            float tita = (2*M_PI*i)/(num_copias - 1);
+
+            // Matriz que vamos a usar para girar el perfil en el eje (eje vertical)
 
 
-/*
-Los pseudocódigos de los algoritmos de creación de mallas por revolución se encuentran en el pdf
+            /**
+             * Esta matriz de rotación es una matriz de 3x3 que se usa para rotar un punto en 3D alrededor del eje Y. La matriz se define usando el ángulo tita:
+             * 
+               La primera fila corresponde a las nuevas coordenadas X después de la rotación.
+               La segunda fila mantiene la coordenada Y sin cambios (rotación alrededor del eje Y).
+               La tercera fila corresponde a las nuevas coordenadas Z después de la rotación.
+            */
+            std::vector<std::vector<float>> matriz_giro = 
+            {  {cos(tita), 0.0, sin(tita)},
+               {0 ,1, 0},
+               {-sin(tita), 0, cos(tita)},
+            };
 
-*/
-   //Rellenamos la tabla de vertices
-   for (unsigned i = 0; i < num_copias; i++) {
-      for (unsigned j = 0; j < perfil.size(); j++) {
+            // Aplicamos la matriz de giro al perfil para obtener el nuevo vertice
 
-         /**
-          *   tita es el ángulo de rotación calculado en radianes
-          */
-         float tita = (2*M_PI*i)/(num_copias - 1);
+            /**
+             * 
+             * Aquí, se multiplica la matriz de rotación por el vector del perfil original (perfil[j]) para obtener el nuevo vértice (nuevo_vertice).
+             * Cada componente del nuevo vértice se calcula como una combinación lineal de las componentes del perfil original, ponderadas por los 
+             * elementos correspondientes de la matriz de rotación.
+             */
+            glm::vec3 nuevo_vertice = {
+               matriz_giro[0][0]*perfil[j][0] + matriz_giro[0][1]*perfil[j][1] + matriz_giro[0][2]*perfil[j][2],
+               matriz_giro[1][0]*perfil[j][0] + matriz_giro[1][1]*perfil[j][1] + matriz_giro[1][2]*perfil[j][2],
+               matriz_giro[2][0]*perfil[j][0] + matriz_giro[2][1]*perfil[j][1] + matriz_giro[2][2]*perfil[j][2],
+            };
 
-         // Matriz que vamos a usar para girar el perfil en el eje (eje vertical)
+            // Añadimos el nuevo vertice a la tabla de vertices
+            vertices.push_back(nuevo_vertice);  
 
+            // PRACTICA 4
+            vec3 aux = vec3(normales_n[j][0] * cos(tita), normales_n[j][1], -normales_n[j][0] * sin(tita));
+            if (length(aux) != 0.0)
+               normalize(aux);
+            nor_ver.push_back(aux);
+            
+            cc_tt_ver.push_back({float(i) / (num_copias-1), 1-t[j]});
 
-         /**
-          * Esta matriz de rotación es una matriz de 3x3 que se usa para rotar un punto en 3D alrededor del eje Y. La matriz se define usando el ángulo tita:
-          * 
-            La primera fila corresponde a las nuevas coordenadas X después de la rotación.
-            La segunda fila mantiene la coordenada Y sin cambios (rotación alrededor del eje Y).
-            La tercera fila corresponde a las nuevas coordenadas Z después de la rotación.
-          */
-         std::vector<std::vector<float>> matriz_giro = 
-         {  {cos(tita), 0.0, sin(tita)},
-            {0 ,1, 0},
-            {-sin(tita), 0, cos(tita)},
-         };
-
-         // Aplicamos la matriz de giro al perfil para obtener el nuevo vertice
-
-         /**
-          * 
-          * Aquí, se multiplica la matriz de rotación por el vector del perfil original (perfil[j]) para obtener el nuevo vértice (nuevo_vertice).
-          * Cada componente del nuevo vértice se calcula como una combinación lineal de las componentes del perfil original, ponderadas por los 
-          * elementos correspondientes de la matriz de rotación.
-          */
-         glm::vec3 nuevo_vertice = {
-            matriz_giro[0][0]*perfil[j][0] + matriz_giro[0][1]*perfil[j][1] + matriz_giro[0][2]*perfil[j][2],
-            matriz_giro[1][0]*perfil[j][0] + matriz_giro[1][1]*perfil[j][1] + matriz_giro[1][2]*perfil[j][2],
-            matriz_giro[2][0]*perfil[j][0] + matriz_giro[2][1]*perfil[j][1] + matriz_giro[2][2]*perfil[j][2],
-         };
-
-         // Añadimos el nuevo vertice a la tabla de vertices
-         vertices.push_back(nuevo_vertice);  
-
+         }
       }
-   }
 
-   //Rellenamos la tabla de triangulos
+      //Rellenamos la tabla de triangulos
 
-   for (unsigned i = 0; i < num_copias-1; i++) {
-      for (unsigned j = 0; j < perfil.size()-1; j++) {
-         int k = i * perfil.size() + j;
+      for (unsigned i = 0; i < num_copias-1; i++) {
+         for (unsigned j = 0; j < perfil.size()-1; j++) {
+            int k = i * perfil.size() + j;
 
-         triangulos.push_back({k, k + perfil.size(), k + perfil.size() + 1});
-         triangulos.push_back({k, k + perfil.size() + 1, k + 1});
+            triangulos.push_back({k, k + perfil.size(), k + perfil.size() + 1});
+            triangulos.push_back({k, k + perfil.size() + 1, k + 1});
+         }
       }
-   }
 
 
 

@@ -124,6 +124,11 @@ class Cubo : public MallaInd
    public:
       Cubo();
 };
+class Cubo24: public MallaInd
+{
+   public:
+      Cubo24();
+};
 
 class Tetraedro : public MallaInd
 {
@@ -163,11 +168,6 @@ class MallaTorre : public MallaInd
       MallaTorre(unsigned n);
 };
 
-class Cubo24 : public MallaInd
-{
-   public:
-      Cubo24();
-};
 
 class CuboColores : public MallaInd
 {

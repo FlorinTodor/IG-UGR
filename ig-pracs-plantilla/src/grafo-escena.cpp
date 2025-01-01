@@ -167,6 +167,16 @@ void NodoGrafoEscena::visualizarGL(  )
 
    // ......
 
+   if ( aplicacionIG->iluminacion ) {
+       pila_materiales->push();
+       for (const auto& entrada : entradas) {
+           if (entrada.tipo == TipoEntNGE::material) {
+               pila_materiales->activar(entrada.material);
+           }
+       }
+       pila_materiales->pop();
+   }
+
 
 }
 
@@ -227,9 +237,24 @@ void NodoGrafoEscena::visualizarNormalesGL(  )
    // en cuenta estos puntos:
    //
    // - usar push/pop de la matriz de modelado al inicio/fin (al igual que en visualizatGL)
+   cauce->pushMM();  // Guardar copia de la matriz de modelado
+
    // - recorrer las entradas, llamando recursivamente a 'visualizarNormalesGL' en los nodos u objetos hijos
+      for (const auto& entrada : entradas) {
+         if (entrada.tipo == TipoEntNGE::objeto){
+            // Visualizar la geometría del objeto sin colores ni materiales
+            entrada.objeto->visualizarNormalesGL();
+         } else if (entrada.tipo == TipoEntNGE::transformacion) {
+            // Componer la matriz si es una transformación
+            cauce->compMM(*entrada.matriz);
+         }
+      }
+
+   
    // - ignorar el color o identificador del nodo (se supone que el color ya está prefijado antes de la llamada)
+
    // - ignorar las entradas de tipo material, y la gestión de materiales (se usa sin iluminación)
+   cauce->popMM();  // Restaurar la matriz de modelado
 
    // .......
 
@@ -490,5 +515,12 @@ void GrafoCubos::actualizarEstadoParametro(const unsigned iParam, const float t_
 }
 
 
+
+/* PRACTICA 4*/
+
+NodoCubo24::NodoCubo24(){
+   agregar( new Material( new Textura("window-icon.jpg") , 0.5, 0.3, 0.7, 100.0) );
+   agregar( new Cubo24() );
+}
 
 

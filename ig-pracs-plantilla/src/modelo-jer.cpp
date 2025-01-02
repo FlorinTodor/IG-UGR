@@ -10,21 +10,166 @@
 using namespace std;
 using namespace glm;
 
+/* Los brazos no van a tener la generación de coordenadas de textura para que se genere automáticamente como se nos solicita*/
 
+CuboBrazos::CuboBrazos(){
+     vertices =
+      {
+         {+1.0, -1.0, +1.0}, // 0
+         {+1.0, +1.0, +1.0}, // 1
+         {+1.0, +1.0, -1.0}, // 2
+         {+1.0, -1.0, -1.0}, // 3
+
+
+         {-1.0, -1.0, +1.0}, // 4
+         {-1.0, +1.0, +1.0}, // 5
+         {+1.0, +1.0, +1.0}, // 6
+         {+1.0, -1.0, +1.0}, // 7
+
+
+         {-1.0, -1.0, -1.0}, // 8
+         {-1.0, +1.0, -1.0}, // 9
+         {-1.0, +1.0, +1.0}, // 10
+         {-1.0, -1.0, +1.0}, // 11
+
+         {+1.0, -1.0, -1.0}, // 12
+         {+1.0, +1.0, -1.0}, // 13
+         {-1.0, +1.0, -1.0}, // 14
+         {-1.0, -1.0, -1.0}, // 15
+
+
+         {+1.0, +1.0, +1.0}, // 16
+         {-1.0, +1.0, +1.0}, // 17
+         {-1.0, +1.0, -1.0}, // 18
+         {+1.0, +1.0, -1.0}, // 19
+
+         {+1.0, -1.0, +1.0}, // 20
+         {-1.0, -1.0, +1.0}, // 21
+         {-1.0, -1.0, -1.0}, // 22
+         {+1.0, -1.0, -1.0}  // 23
+      };
+
+   triangulos =
+      {
+         {0, 3, 2},
+         {0, 2, 1},
+
+         {4, 7, 6},
+         {4, 6, 5},
+
+         {8, 11, 10},
+         {8, 10, 9},
+
+         {12, 15, 14},
+         {12, 14, 13},
+
+         {16, 19, 18},
+         {16, 18, 17},
+
+         {20, 22, 23},
+         {20, 21, 22}
+      };
+
+       calcularNormales();
+
+}
 CuboCuerpo::CuboCuerpo() {
-    // Cubo de 1x2x0.5 centrado en el origen
-    vertices = {
-        {+1.0, -1.0, +1.0}, {-1.0, -1.0, +1.0},
-        {-1.0, +1.0, +1.0}, {+1.0, +1.0, +1.0},
-        {+1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0},
-        {-1.0, +1.0, -1.0}, {+1.0, +1.0, -1.0}
-    };
-    triangulos = {
-        {0, 1, 2}, {0, 2, 3}, {4, 7, 6}, {4, 6, 5},
-        {0, 3, 7}, {0, 7, 4}, {1, 5, 6}, {1, 6, 2},
-        {3, 2, 6}, {3, 6, 7}, {0, 4, 5}, {0, 5, 1}
-    };
-    
+    // 24 vértices: 6 caras * 4 vértices por cara
+    // Usamos las mismas coordenadas que en tu cubo 1x2x0.5 (centrado),
+    // pero replicadas para que cada cara tenga sus propios 4 vértices.
+
+     vertices =
+      {
+         {+1.0, -1.0, +1.0}, // 0
+         {+1.0, +1.0, +1.0}, // 1
+         {+1.0, +1.0, -1.0}, // 2
+         {+1.0, -1.0, -1.0}, // 3
+
+
+         {-1.0, -1.0, +1.0}, // 4
+         {-1.0, +1.0, +1.0}, // 5
+         {+1.0, +1.0, +1.0}, // 6
+         {+1.0, -1.0, +1.0}, // 7
+
+
+         {-1.0, -1.0, -1.0}, // 8
+         {-1.0, +1.0, -1.0}, // 9
+         {-1.0, +1.0, +1.0}, // 10
+         {-1.0, -1.0, +1.0}, // 11
+
+         {+1.0, -1.0, -1.0}, // 12
+         {+1.0, +1.0, -1.0}, // 13
+         {-1.0, +1.0, -1.0}, // 14
+         {-1.0, -1.0, -1.0}, // 15
+
+
+         {+1.0, +1.0, +1.0}, // 16
+         {-1.0, +1.0, +1.0}, // 17
+         {-1.0, +1.0, -1.0}, // 18
+         {+1.0, +1.0, -1.0}, // 19
+
+         {+1.0, -1.0, +1.0}, // 20
+         {-1.0, -1.0, +1.0}, // 21
+         {-1.0, -1.0, -1.0}, // 22
+         {+1.0, -1.0, -1.0}  // 23
+      };
+
+   triangulos =
+      {
+         {0, 3, 2},
+         {0, 2, 1},
+
+         {4, 7, 6},
+         {4, 6, 5},
+
+         {8, 11, 10},
+         {8, 10, 9},
+
+         {12, 15, 14},
+         {12, 14, 13},
+
+         {16, 19, 18},
+         {16, 18, 17},
+
+         {20, 22, 23},
+         {20, 21, 22}
+      };
+      
+      
+   cc_tt_ver = {
+    // Cara frontal
+      {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+    // Cara Trasera
+      {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+    // Cada Derecha
+      {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+    // Cara Izquierda
+      {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+    // Cara Superior
+     {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+    // Cara Inferior 
+      {0.0, 0.0},
+      {1.0, 0.0},
+      {1.0, 1.5},
+      {0.0, 1.5},
+   };
+
+    calcularNormales();
 }
 
 MinecraftMuñeco::MinecraftMuñeco() {
@@ -32,12 +177,15 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
+    TexturaXY * TexturaCuerpo = new TexturaXY("ropa.jpg");
+    Material * MaterialCuerpo = new Material(TexturaCuerpo,0.5, 0.0, 0.05, 0.5);
     unsigned indiceTraslacionCuerpo = agregar(translate(vec3(0.0f, 0.0f, 0.0f)));
     movimientoCuerpo = leerPtrMatriz(indiceTraslacionCuerpo);
     cuerpo->ponerNombre("Cuerpo del Muñeco");
     cuerpo->agregar(translate(vec3(0.0, 1.0, 0.0))); // Posición
     cuerpo->agregar(scale(vec3(1.0, 2.0, 0.5))); // Escala
     cuerpo->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el abrigo
+    cuerpo->agregar(MaterialCuerpo);
     cuerpo->agregar(new CuboCuerpo());
 
     // Cabeza
@@ -110,16 +258,21 @@ MinecraftMuñeco::MinecraftMuñeco() {
     // Nodo para mover todo el cuerpo hacia adelante y atrás
     
     NodoGrafoEscena* hombroIzq = new NodoGrafoEscena();
+    
+
     hombroIzq->ponerNombre("Hombro Izquierdo");
     hombroIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Posición del hombro izquierdo
 
     NodoGrafoEscena* brazoIzq = new NodoGrafoEscena();
+    TexturaXY * TexturaBrazoIzq = new TexturaXY("ropa.jpg");
+    Material * MaterialBrazoIzq = new Material(TexturaBrazoIzq,0.5, 0.0, 0.05, 0.5);
     brazoIzq->ponerNombre("Brazo Izquierdo");
     unsigned indiceRotBrazoIzq = brazoIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo izquierdo, rota en el eje X
     brazoIzq->agregar(translate(vec3(0.0, -0.75, 0.0))); // Posición de la parte inferior del brazo izquierdo
     brazoIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo izquierdo
     brazoIzq->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo izquierdo
-    brazoIzq->agregar(new CuboCuerpo());
+    brazoIzq->agregar(MaterialBrazoIzq);
+    brazoIzq->agregar(new CuboBrazos());
 
     rotacionBrazoIzq = brazoIzq->leerPtrMatriz(indiceRotBrazoIzq);
     hombroIzq->agregar(brazoIzq); // Añade el brazo izquierdo al hombro izquierdo
@@ -130,33 +283,42 @@ MinecraftMuñeco::MinecraftMuñeco() {
     hombroDer->agregar(translate(vec3(1.5, 1.5, 0.0))); // Posición del hombro derecho
 
     NodoGrafoEscena* brazoDer = new NodoGrafoEscena();
+    TexturaXY * TexturaBrazoDer = new TexturaXY("ropa.jpg");
+    Material * MaterialBrazoDer = new Material(TexturaBrazoDer,0.5, 0.0, 0.05, 0.5);
     brazoDer->ponerNombre("Brazo Derecho");
     unsigned indiceRotBrazoDer = brazoDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo derecho
     brazoDer->agregar(translate(vec3(0.0, -0.75, 0.0))); // Posición de la parte inferior del brazo derecho
     brazoDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo derecho
     brazoDer->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo derecho
-    brazoDer->agregar(new CuboCuerpo());
+    brazoDer->agregar(MaterialBrazoDer);
+    brazoDer->agregar(new CuboBrazos());
 
     rotacionBrazoDer = brazoDer->leerPtrMatriz(indiceRotBrazoDer);
     hombroDer->agregar(brazoDer); // Añade el brazo derecho al hombro derecho
 
     // Pierna izquierda
     NodoGrafoEscena* piernaIzq = new NodoGrafoEscena();
+    TexturaXY * TexturaPiernaIzq = new TexturaXY("piernas.jpg");
+    Material * MaterialPiernaIzq = new Material(TexturaPiernaIzq,0.5, 0.0, 0.05, 0.5);
     piernaIzq->ponerNombre("Pierna Izquierda");
     unsigned indiceRotPiernaIzq = piernaIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna izquierda
     piernaIzq->agregar(translate(vec3(-0.5, -1.0, 0.0))); // Posición de la pierna izquierda
     piernaIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala de la pierna izquierda
     piernaIzq->ponerColor({0.3f, 0.15f, 0.1f}); // Marrón oscuro para la pierna izquierda
+    piernaIzq->agregar(MaterialPiernaIzq);
     piernaIzq->agregar(new CuboCuerpo());
     rotacionPiernaIzq = piernaIzq->leerPtrMatriz(indiceRotPiernaIzq);
 
     // Pierna derecha
     NodoGrafoEscena* piernaDer = new NodoGrafoEscena();
+    TexturaXY * TexturaPiernaDer = new TexturaXY("piernas.jpg");
+    Material * MaterialPiernaDer = new Material(TexturaPiernaDer,0.5, 0.0, 0.05, 0.5);
     piernaDer->ponerNombre("Pierna Derecha");
     unsigned indiceRotPiernaDer = piernaDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna derecha
     piernaDer->agregar(translate(vec3(0.5, -1.0, 0.0))); // Posición de la pierna derecha
     piernaDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala de la pierna derecha
     piernaDer->ponerColor({0.3f, 0.15f, 0.1f}); // Marrón oscuro para la pierna derecha
+    piernaDer->agregar(MaterialPiernaDer);
     piernaDer->agregar(new CuboCuerpo());
     rotacionPiernaDer = piernaDer->leerPtrMatriz(indiceRotPiernaDer);
 

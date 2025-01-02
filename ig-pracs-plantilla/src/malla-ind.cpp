@@ -797,6 +797,11 @@ Cubo24::Cubo24() {
          {20, 21, 22}
       };
       
+      /*
+      La tabla cc_tt_ver actual repite la misma malla de UV en cada cara (0..3, 4..7, etc.).
+       Eso está bien si queremos la misma textura en cada cara y de la misma forma.
+      
+      */
    cc_tt_ver = {
       {0.0, 1.0-0.0},
       {0.0, 1.0-1.0},

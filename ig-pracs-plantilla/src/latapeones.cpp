@@ -23,7 +23,7 @@ Lata::Lata(const std::string & nombre_arch) {
 
     Textura* cocacola = new Textura(nombre_arch);
     Material* materialLata = new Material(cocacola, 0.75, 0.65, 0.25, 50.0);
-    Material* materialBases = new Material(0.35, 0.45, 0.25, 50.0);
+    Material* materialBases = new Material(0.35, 0.45, 0.25, 50.0); //gris
 
     NodoGrafoEscena* base = new NodoGrafoEscena();
     NodoGrafoEscena* cara = new NodoGrafoEscena();

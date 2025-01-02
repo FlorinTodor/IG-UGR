@@ -14,6 +14,11 @@ public:
     CuboCuerpo();
 };
 
+class CuboBrazos : public MallaInd {
+public:
+    CuboBrazos();
+};
+
 class MinecraftMuñeco : public NodoGrafoEscena {
 public:
     MinecraftMuñeco();

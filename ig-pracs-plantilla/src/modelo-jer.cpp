@@ -264,7 +264,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     hombroIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Posición del hombro izquierdo
 
     NodoGrafoEscena* brazoIzq = new NodoGrafoEscena();
-    TexturaXY * TexturaBrazoIzq = new TexturaXY("ropa.jpg");
+    TexturaXZ * TexturaBrazoIzq = new TexturaXZ("ropa.jpg");
     Material * MaterialBrazoIzq = new Material(TexturaBrazoIzq,0.5, 0.0, 0.05, 0.5);
     brazoIzq->ponerNombre("Brazo Izquierdo");
     unsigned indiceRotBrazoIzq = brazoIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo izquierdo, rota en el eje X
@@ -283,7 +283,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     hombroDer->agregar(translate(vec3(1.5, 1.5, 0.0))); // Posición del hombro derecho
 
     NodoGrafoEscena* brazoDer = new NodoGrafoEscena();
-    TexturaXY * TexturaBrazoDer = new TexturaXY("ropa.jpg");
+    TexturaXZ * TexturaBrazoDer = new TexturaXZ("ropa.jpg");
     Material * MaterialBrazoDer = new Material(TexturaBrazoDer,0.5, 0.0, 0.05, 0.5);
     brazoDer->ponerNombre("Brazo Derecho");
     unsigned indiceRotBrazoDer = brazoDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo derecho

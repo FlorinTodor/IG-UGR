@@ -178,7 +178,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
     TexturaXY * TexturaCuerpo = new TexturaXY("ropa.jpg");
-    Material * MaterialCuerpo = new Material(TexturaCuerpo,0.5, 0.0, 0.05, 0.5);
+    Material * MaterialCuerpo = new Material(TexturaCuerpo,0.5, 0.0, 0.05, 50);
     unsigned indiceTraslacionCuerpo = agregar(translate(vec3(0.0f, 0.0f, 0.0f)));
     movimientoCuerpo = leerPtrMatriz(indiceTraslacionCuerpo);
     cuerpo->ponerNombre("Cuerpo del Muñeco");
@@ -200,10 +200,12 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Sombrero
     NodoGrafoEscena* sombrero = new NodoGrafoEscena();
+    Material * MaterialSombrero = new Material(0.5, 0.0, 0.05, 50);
     sombrero->ponerNombre("Sombrero del Muñeco");
     sombrero->agregar(translate(vec3(0.0, 1.1, 0.0))); // Posición del sombrero encima de la cabeza
     sombrero->agregar(scale(vec3(1.2, 0.4, 1.2))); // Escala del sombrero
     sombrero->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para el sombrero
+    sombrero->agregar(MaterialSombrero);
     sombrero->agregar(new CuboCuerpo());
 
     // Ojo Izquierdo y Pupila
@@ -264,7 +266,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     hombroIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Posición del hombro izquierdo
 
     NodoGrafoEscena* brazoIzq = new NodoGrafoEscena();
-    TexturaXZ * TexturaBrazoIzq = new TexturaXZ("ropa.jpg");
+    TexturaXY * TexturaBrazoIzq = new TexturaXY("ropa.jpg");
     Material * MaterialBrazoIzq = new Material(TexturaBrazoIzq,0.5, 0.0, 0.05, 0.5);
     brazoIzq->ponerNombre("Brazo Izquierdo");
     unsigned indiceRotBrazoIzq = brazoIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo izquierdo, rota en el eje X
@@ -283,8 +285,8 @@ MinecraftMuñeco::MinecraftMuñeco() {
     hombroDer->agregar(translate(vec3(1.5, 1.5, 0.0))); // Posición del hombro derecho
 
     NodoGrafoEscena* brazoDer = new NodoGrafoEscena();
-    TexturaXZ * TexturaBrazoDer = new TexturaXZ("ropa.jpg");
-    Material * MaterialBrazoDer = new Material(TexturaBrazoDer,0.5, 0.0, 0.05, 0.5);
+    TexturaXY * TexturaBrazoDer = new TexturaXY("ropa.jpg");
+    Material * MaterialBrazoDer = new Material(TexturaBrazoDer,0.5, 0.85, 0.05, 0.5);
     brazoDer->ponerNombre("Brazo Derecho");
     unsigned indiceRotBrazoDer = brazoDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación del brazo derecho
     brazoDer->agregar(translate(vec3(0.0, -0.75, 0.0))); // Posición de la parte inferior del brazo derecho
@@ -299,7 +301,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     // Pierna izquierda
     NodoGrafoEscena* piernaIzq = new NodoGrafoEscena();
     TexturaXY * TexturaPiernaIzq = new TexturaXY("piernas.jpg");
-    Material * MaterialPiernaIzq = new Material(TexturaPiernaIzq,0.5, 0.0, 0.05, 0.5);
+    Material * MaterialPiernaIzq = new Material(TexturaPiernaIzq,0.75, 0.85, 0.75, 50);
     piernaIzq->ponerNombre("Pierna Izquierda");
     unsigned indiceRotPiernaIzq = piernaIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna izquierda
     piernaIzq->agregar(translate(vec3(-0.5, -1.0, 0.0))); // Posición de la pierna izquierda
@@ -312,7 +314,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     // Pierna derecha
     NodoGrafoEscena* piernaDer = new NodoGrafoEscena();
     TexturaXY * TexturaPiernaDer = new TexturaXY("piernas.jpg");
-    Material * MaterialPiernaDer = new Material(TexturaPiernaDer,0.5, 0.0, 0.05, 0.5);
+    Material * MaterialPiernaDer = new Material(TexturaPiernaDer,0.75, 0.85, 0.5, 50);
     piernaDer->ponerNombre("Pierna Derecha");
     unsigned indiceRotPiernaDer = piernaDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna derecha
     piernaDer->agregar(translate(vec3(0.5, -1.0, 0.0))); // Posición de la pierna derecha

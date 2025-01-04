@@ -136,38 +136,38 @@ CuboCuerpo::CuboCuerpo() {
       };
       
       
-   cc_tt_ver = {
-    // Cara frontal
-      {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
-    // Cara Trasera
-      {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
-    // Cada Derecha
-      {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
-    // Cara Izquierda
-      {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
-    // Cara Superior
-     {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
-    // Cara Inferior 
-      {0.0, 0.0},
-      {1.0, 0.0},
-      {1.0, 1.5},
-      {0.0, 1.5},
+  cc_tt_ver = {
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0}
    };
+
 
     calcularNormales();
 }
@@ -177,7 +177,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
-    TexturaXY * TexturaCuerpo = new TexturaXY("ropa.jpg");
+    Textura * TexturaCuerpo = new Textura("ropa.jpg");
     Material * MaterialCuerpo = new Material(TexturaCuerpo,0.5, 0.0, 0.05, 50);
     unsigned indiceTraslacionCuerpo = agregar(translate(vec3(0.0f, 0.0f, 0.0f)));
     movimientoCuerpo = leerPtrMatriz(indiceTraslacionCuerpo);
@@ -300,7 +300,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Pierna izquierda
     NodoGrafoEscena* piernaIzq = new NodoGrafoEscena();
-    TexturaXY * TexturaPiernaIzq = new TexturaXY("piernas.jpg");
+    Textura * TexturaPiernaIzq = new Textura("piernas.jpg");
     Material * MaterialPiernaIzq = new Material(TexturaPiernaIzq,0.75, 0.85, 0.75, 50);
     piernaIzq->ponerNombre("Pierna Izquierda");
     unsigned indiceRotPiernaIzq = piernaIzq->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna izquierda
@@ -313,7 +313,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
 
     // Pierna derecha
     NodoGrafoEscena* piernaDer = new NodoGrafoEscena();
-    TexturaXY * TexturaPiernaDer = new TexturaXY("piernas.jpg");
+    Textura * TexturaPiernaDer = new Textura("piernas.jpg");
     Material * MaterialPiernaDer = new Material(TexturaPiernaDer,0.75, 0.85, 0.5, 50);
     piernaDer->ponerNombre("Pierna Derecha");
     unsigned indiceRotPiernaDer = piernaDer->agregar(rotate(0.0f, vec3{1.0, 0.0, 0.0})); // Rotación de la pierna derecha

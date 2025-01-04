@@ -196,5 +196,11 @@ class MallaPiramideL : public MallaInd
 // ---------------------------------------------------------------------
 
 
+/* Ejercicio adicionales P4*/
 
+class MallaDiscoP4 : public MallaInd
+{
+   public:
+      MallaDiscoP4();
+};
 #endif

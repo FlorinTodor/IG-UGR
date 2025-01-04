@@ -175,8 +175,16 @@ class NodoCubo24 : public NodoGrafoEscena {
    public:
       NodoCubo24();
 };
+class NodoDiscoP4 : public NodoGrafoEscena {
+   public:
+      NodoDiscoP4();
+};
 
 
+class NodoBeethoven : public NodoGrafoEscena {
+   public:
+      NodoBeethoven();
+};
 
 
 #endif // GRAFO_ESCENA_HPP

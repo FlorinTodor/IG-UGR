@@ -296,8 +296,22 @@ void MallaInd::visualizarModoSeleccionGL()
    //       + Hacer push del color del cauce, con 'pushColor'.
    //       + Fijar el color del cauce (con 'fijarColor') usando un color obtenido a 
    //         partir del identificador (con 'ColorDesdeIdent'). 
+
+     int ident = leerIdentificador();
+   if (ident != -1) {
+      cauce->pushColor();
+      cauce->fijarColor(ColorDesdeIdent(ident));
+   }
+
+
    // 2. Invocar 'visualizarGeomGL' para visualizar la geometría.
+
+   visualizarGeomGL();
    // 3. Si tiene identificador: hacer pop del color, con 'popColor'.
+
+   if (ident != -1) {
+      cauce->popColor();
+   }
    //
 
 }

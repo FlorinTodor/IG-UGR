@@ -386,3 +386,23 @@ Col2Fuentes::Col2Fuentes()
    insertar( new FuenteLuz( -70.0, -30.0, vec3 { f1, f1*0.5, f1*0.5 } ) );
 
 }
+
+
+TexturaMaderaAutoCoords::TexturaMaderaAutoCoords(bool vetasVertical)
+   : Textura("text-madera.jpg")
+{
+   modo_gen_ct = mgct_coords_objeto;
+
+   if (vetasVertical)
+   {
+      // vetas verticales (s = x, t = y)
+      coefs_s[0] = 1.0f; coefs_s[1] = 0.0f; coefs_s[2] = 0.0f; coefs_s[3] = 0.0f;
+      coefs_t[0] = 0.0f; coefs_t[1] = 1.0f; coefs_t[2] = 0.0f; coefs_t[3] = 0.0f;
+   }
+   else
+   {
+      // vetas horizontales (s = y, t = -x)
+      coefs_s[0] = 0.0f; coefs_s[1] = 1.0f; coefs_s[2] = 0.0f; coefs_s[3] = 0.0f;
+      coefs_t[0] = -1.0f; coefs_t[1] = 0.0f; coefs_t[2] = 0.0f; coefs_t[3] = 0.0f;
+   }
+}

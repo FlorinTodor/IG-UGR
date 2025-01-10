@@ -100,6 +100,8 @@ AplicacionIG::AplicacionIG()
    // ......
 
 
+   escenas.push_back( new Escena5() );
+
 
 
    cout << "Objetos creados." << endl ;

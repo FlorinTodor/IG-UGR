@@ -181,9 +181,9 @@ class NodoDiscoP4 : public NodoGrafoEscena {
 };
 
 
-class NodoBeethoven : public NodoGrafoEscena {
+class NodoBeethovenMadera : public NodoGrafoEscena {
    public:
-      NodoBeethoven();
+      NodoBeethovenMadera(bool vetasVertical);
 };
 
 

@@ -276,4 +276,9 @@ class Col2Fuentes : public ColFuentesLuz
 } ;
 
 
+class TexturaMaderaAutoCoords : public Textura
+{
+public:
+   TexturaMaderaAutoCoords(bool vetasVertical);
+};
 #endif

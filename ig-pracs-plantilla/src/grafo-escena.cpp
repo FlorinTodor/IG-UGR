@@ -276,15 +276,36 @@ void NodoGrafoEscena::visualizarModoSeleccionGL()
    // 2. Leer identificador (con 'leerIdentificador'), si el identificador no es -1 
    //      + Guardar una copia del color actual del cauce (con 'pushColor')
    //      + Fijar el color del cauce de acuerdo al identificador, (usar 'ColorDesdeIdent'). 
+
+   int ident = leerIdentificador();
+   if (ident != -1) {
+      cauce->pushColor();
+      cauce->fijarColor(ColorDesdeIdent(ident));
+   }
+
    // 3. Guardar una copia de la matriz de modelado (con 'pushMM')
+   cauce->pushMM();
    // 4. Recorrer la lista de nodos y procesar las entradas transformación o subobjeto:
    //      + Para las entradas subobjeto, invocar recursivamente a 'visualizarModoSeleccionGL'
    //      + Para las entradas transformación, componer la matriz (con 'compMM')
+   for( const auto & entrada : entradas){
+      if ( entrada.tipo == TipoEntNGE::objeto )
+         entrada.objeto->visualizarModoSeleccionGL();
+      else if ( entrada.tipo == TipoEntNGE::transformacion )
+         cauce->compMM( *entrada.matriz );
+   }
+   
+
    // 5. Restaurar la matriz de modelado original (con 'popMM')   
+
+   cauce->popMM();
+
    // 6. Si el identificador no es -1, restaurar el color previo del cauce (con 'popColor')
    //
    // ........
-
+   if (ident != -1) {
+      cauce->popColor();
+   }
 
 }
 
@@ -366,6 +387,29 @@ void NodoGrafoEscena::calcularCentroOC()
    //    en coordenadas de objeto (hay que hacerlo recursivamente)
    //   (si el centro ya ha sido calculado, no volver a hacerlo)
    // ........
+   if (centro_calculado)
+      return;
+   
+   int contadorCentros = 0;
+   mat4 matrizModelado(1.0f);
+   vec3 centroAcumulado = vec3(0.0, 0.0, 0.0);
+
+   for (unsigned int i = 0; i < entradas.size(); i++){
+      if (entradas[i].tipo == TipoEntNGE::transformacion){
+         matrizModelado = matrizModelado * (*entradas[i].matriz);
+      }
+      else if (entradas[i].tipo == TipoEntNGE::objeto){
+         entradas[i].objeto->calcularCentroOC();
+         centroAcumulado = centroAcumulado + vec3(matrizModelado * vec4(entradas[i].objeto->leerCentroOC(),1.0f));
+         contadorCentros++;
+      }
+   }
+
+   for (int i = 0; i < 3; i++) {
+      centroAcumulado[i] /= contadorCentros;
+   }
+   ponerCentroOC( centroAcumulado);
+   centro_calculado = true;
 
 }
 // -----------------------------------------------------------------------------
@@ -390,16 +434,33 @@ bool NodoGrafoEscena::buscarObjeto
    // 1. calcula el centro del objeto, (solo la primera vez)
    // ........
 
+   calcularCentroOC();
+
 
    // 2. si el identificador del nodo es el que se busca, ya está (terminar)
    // ........
-
+   if (leerIdentificador() == ident_busc){
+      *objeto = this;
+      centro_wc = leerCentroOC();
+      return true;
+   }
 
    // 3. El nodo no es el buscado: buscar recursivamente en los hijos
    //    (si alguna llamada para un sub-árbol lo encuentra, terminar y devolver 'true')
    // ........
 
+    mat4 matrizmod = mmodelado;
 
+   for (const auto & entrada : entradas){
+      if (entrada.tipo == TipoEntNGE::objeto){
+         if (entrada.objeto->buscarObjeto(ident_busc, matrizmod, objeto, centro_wc))
+            return true;
+      }
+      else if (entrada.tipo == TipoEntNGE::transformacion){
+         matrizmod = matrizmod * (*entrada.matriz);
+      }
+   }
+   
    // ni este nodo ni ningún hijo es el buscado: terminar
    return false ;
 }
@@ -519,7 +580,7 @@ void GrafoCubos::actualizarEstadoParametro(const unsigned iParam, const float t_
 /* PRACTICA 4*/
 
 NodoCubo24::NodoCubo24(){
-   agregar( new Material( new Textura("window-icon.jpg") , 0.5, 0.8, 0.7, 100.0) );
+   agregar( new Material( new Textura("window-icon.jpg") , 0.5, 0.3, 0.7, 100.0) );
    agregar( new Cubo24() );
 }
 
@@ -531,11 +592,11 @@ NodoDiscoP4::NodoDiscoP4(){
    agregar( new MallaDiscoP4() );
 }
 
-
-NodoBeethoven::NodoBeethoven(){
-   agregar( new Material( new TexturaXY("text-madera.jpg") , 0.5, 0.8, 0.7, 100.0) );
-   agregar( new MallaPLY("beethoven.ply"));
-
+NodoBeethovenMadera::NodoBeethovenMadera(bool vetasVertical){
+   Textura *tex = new TexturaMaderaAutoCoords(vetasVertical);
+   Material *mat = new Material(tex, 0.5, 0.6, 0.5, 50.0);
+   agregar(mat);
+   agregar(new MallaPLY("beethoven.ply"));
 }
 
 

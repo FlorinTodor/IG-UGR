@@ -1,6 +1,5 @@
 #include "latapeones.h"
 
-
 using namespace std;
 using namespace glm;
 
@@ -10,7 +9,9 @@ Peon::Peon(int nperfiles) {
 }
 
 bool Peon::cuandoClick(const glm::vec3 & centro_oc) {
-    *pm_tras = translate(vec3(0.0, 0.0, 1.0));
+    glm::vec3 currentPos = glm::vec3((*pm_tras)[3]);
+    currentPos.z += 0.5f;
+    *pm_tras = translate(currentPos);
     return true;
 }
 
@@ -23,7 +24,7 @@ Lata::Lata(const std::string & nombre_arch) {
 
     Textura* cocacola = new Textura(nombre_arch);
     Material* materialLata = new Material(cocacola, 0.75, 0.65, 0.25, 50.0);
-    Material* materialBases = new Material(0.35, 0.45, 0.25, 50.0); //gris
+    Material* materialBases = new Material(0.35, 0.45, 0.25, 50.0);
 
     NodoGrafoEscena* base = new NodoGrafoEscena();
     NodoGrafoEscena* cara = new NodoGrafoEscena();

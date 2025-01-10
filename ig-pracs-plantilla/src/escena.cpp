@@ -70,7 +70,12 @@ Escena::Escena()
    //
    // Añadir sentencias 'push_back' para añadir varias cámaras al vector 'camaras'.
    // Eliminar este 'push_back' de la cámara orbital simple ('CamaraOrbitalSimple') por varias cámaras de 3 modos ('Camara3Modos')
-   camaras.push_back( new CamaraOrbitalSimple() );
+   //camaras.push_back( new CamaraOrbitalSimple() );
+
+   camaras.push_back(new Camara3Modos(true, *(new vec3({2.0, 2.0, 2.0})), 1.0, *(new vec3({0.0, 0.0, 0.0})), 60.0));
+   camaras.push_back(new Camara3Modos(false, *(new vec3({5.0, 5.0, 5.0})), 1.0, *(new vec3({0.0, 0.0, 0.0})), 60.0));
+   camaras.push_back(new Camara3Modos(false, *(new vec3({-2.5, 2.5, 2.5})), 1.0, *(new vec3({0.0, 0.0, 0.0})), 50.0));
+   camaras.push_back(new Camara3Modos(true, *(new vec3({5.0, -2.5, 5.0})), 1.0, *(new vec3({0.5, 3.0, 0.0})), 70.0));
 
 }
 // -----------------------------------------------------------------------------------------------
@@ -217,27 +222,33 @@ void Escena::visualizarGL_Seleccion(  )
    //       + fijar el modo de polígonos a 'relleno', con 'glPolygonMode'
    //
    // ........
-
+   glViewport(0, 0, aplicacionIG->ventana_tam_x, aplicacionIG->ventana_tam_y);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
    // (2) Activar  y configurar el cauce:
    //      + Activar el cauce (con el método 'activar')
    //      + Desactivar iluminación y texturas en el cauce
    //      + Poner el color actual del cauce a '0' (por defecto los objetos no son seleccionables)
    // ........
+   cauce->activar();
+   cauce->fijarEvalMIL(false);
+   cauce->fijarEvalText(false);
+   cauce->fijarColor(vec4(0.0, 0.0, 0.0, 1.0));
 
 
    // (3) Limpiar el framebuffer (color y profundidad) con color (0,0,0) (para indicar que en ningún pixel hay nada seleccionable)
    // ........
-
+   glClearColor(0,0,0,1);
+   glClear(GL_DEPTH_BUFFER_BIT);
 
    // (4) Recuperar la cámara actual (con 'camaraActual') y activarla en el cauce, 
    // ........
-
+   camaraActual()->activar(*cauce);
 
    // (5) Recuperar (con 'objetoActual') el objeto raíz actual de esta escena y 
    //     visualizarlo con 'visualizarModoSeleccionGL'.
    // ........
-
+   objetoActual()->visualizarModoSeleccionGL();
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -414,7 +425,14 @@ Escena4::Escena4(){
    objetos.push_back(new LataPeones());
    objetos.push_back(new NodoCubo24());
    objetos.push_back(new NodoDiscoP4());
-   objetos.push_back(new NodoBeethoven());
-
+   objetos.push_back(new NodoBeethovenMadera(true));
+   objetos.push_back(new NodoBeethovenMadera(false));
 }
 
+Escena5::Escena5()
+{
+    using namespace std;
+   cout << "Creando objetos de la práctica 5" << endl;
+
+   objetos.push_back(new VariasLatasPeones());
+}

@@ -195,7 +195,10 @@ void FGE_PulsarLevantarTecla( GLFWwindow* window, int key, int scancode, int act
       // el valor de 'apl->visualizar_fbo, e informar sobre si la visualización del 
       // FBO ha quedado activada o desactivada
       //
-
+       case GLFW_KEY_Y :
+         aplicacionIG->visualizar_fbo = !aplicacionIG->visualizar_fbo;
+         cout << "visualizar_fbo: " << (aplicacionIG->visualizar_fbo ? "activado" : "desactivado") << endl << flush;
+         break;
 
       case GLFW_KEY_T :
          aplicacionIG->imprimir_tiempos = ! aplicacionIG->imprimir_tiempos ;

@@ -175,6 +175,13 @@ CuboCuerpo::CuboCuerpo() {
 MinecraftMuñeco::MinecraftMuñeco() {
     ponerNombre("Muñeco de Minecraft");
 
+    unsigned identCuerpo = 1;
+    unsigned identSombrero = 2;
+    unsigned identBrazoIzq = 3;
+    unsigned identBrazoDer = 4;
+    unsigned identPiernaIzq = 5;
+    unsigned identPiernaDer = 6;
+
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
     Textura * TexturaCuerpo = new Textura("ropa.jpg");
@@ -185,6 +192,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     cuerpo->agregar(translate(vec3(0.0, 1.0, 0.0))); // Posición
     cuerpo->agregar(scale(vec3(1.0, 2.0, 0.5))); // Escala
     cuerpo->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el abrigo
+    cuerpo->ponerIdentificador(identCuerpo);
     cuerpo->agregar(MaterialCuerpo);
     cuerpo->agregar(new CuboCuerpo());
 
@@ -206,6 +214,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     sombrero->agregar(scale(vec3(1.2, 0.4, 1.2))); // Escala del sombrero
     sombrero->ponerColor({0.0f, 0.0f, 0.0f}); // Negro para el sombrero
     sombrero->agregar(MaterialSombrero);
+    sombrero->ponerIdentificador(identSombrero);
     sombrero->agregar(new CuboCuerpo());
 
     // Ojo Izquierdo y Pupila
@@ -274,6 +283,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     brazoIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo izquierdo
     brazoIzq->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo izquierdo
     brazoIzq->agregar(MaterialBrazoIzq);
+    brazoIzq->ponerIdentificador(identBrazoIzq);
     brazoIzq->agregar(new CuboBrazos());
 
     rotacionBrazoIzq = brazoIzq->leerPtrMatriz(indiceRotBrazoIzq);
@@ -293,6 +303,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     brazoDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo derecho
     brazoDer->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo derecho
     brazoDer->agregar(MaterialBrazoDer);
+    brazoDer->ponerIdentificador(identBrazoDer);
     brazoDer->agregar(new CuboBrazos());
 
     rotacionBrazoDer = brazoDer->leerPtrMatriz(indiceRotBrazoDer);
@@ -308,6 +319,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     piernaIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala de la pierna izquierda
     piernaIzq->ponerColor({0.3f, 0.15f, 0.1f}); // Marrón oscuro para la pierna izquierda
     piernaIzq->agregar(MaterialPiernaIzq);
+    piernaIzq->ponerIdentificador(identPiernaIzq);
     piernaIzq->agregar(new CuboCuerpo());
     rotacionPiernaIzq = piernaIzq->leerPtrMatriz(indiceRotPiernaIzq);
 
@@ -321,6 +333,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     piernaDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala de la pierna derecha
     piernaDer->ponerColor({0.3f, 0.15f, 0.1f}); // Marrón oscuro para la pierna derecha
     piernaDer->agregar(MaterialPiernaDer);
+    piernaDer->ponerIdentificador(identPiernaDer);
     piernaDer->agregar(new CuboCuerpo());
     rotacionPiernaDer = piernaDer->leerPtrMatriz(indiceRotPiernaDer);
 

@@ -117,7 +117,7 @@ void FGE_PulsarLevantarTecla( GLFWwindow* window, int key, int scancode, int act
          camara->moverZ( +cam_d_incre_tecla );
          break;
 
-      case GLFW_KEY_KP_ADD :        // tecla '+' en el teclado numérico ¿?
+      case GLFW_KEY_KP_ADD:        // tecla '+' en el teclado numérico ¿? // no tengo teclado numérico pero supongo que funciona
          camara->moverZ( -cam_d_incre_tecla );
          break;
 

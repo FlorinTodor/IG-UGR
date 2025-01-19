@@ -176,12 +176,12 @@ MinecraftMuñeco::MinecraftMuñeco() {
     ponerNombre("Muñeco de Minecraft");
 
     unsigned identCuerpo = 1;
-    unsigned identSombrero = 2;
-    unsigned identBrazoIzq = 3;
-    unsigned identBrazoDer = 4;
+    unsigned identCabeza = 2;
+    unsigned identHombroIzq = 3;
+    unsigned identHombroDer = 4;
     unsigned identPiernaIzq = 5;
     unsigned identPiernaDer = 6;
-    unsigned identCabeza = 7;
+   
 
     // Cuerpo
     NodoGrafoEscena* cuerpo = new NodoGrafoEscena();
@@ -279,6 +279,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     
 
     hombroIzq->ponerNombre("Hombro Izquierdo");
+    hombroIzq->ponerIdentificador(identHombroIzq);
     hombroIzq->agregar(translate(vec3(-1.5, 1.5, 0.0))); // Posición del hombro izquierdo
 
     NodoGrafoEscena* brazoIzq = new NodoGrafoEscena();
@@ -290,7 +291,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     brazoIzq->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo izquierdo
     brazoIzq->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo izquierdo
     brazoIzq->agregar(MaterialBrazoIzq);
-    brazoIzq->ponerIdentificador(identBrazoIzq);
+    brazoIzq->ponerIdentificador(-1);
     brazoIzq->agregar(new CuboBrazos());
 
     rotacionBrazoIzq = brazoIzq->leerPtrMatriz(indiceRotBrazoIzq);
@@ -299,6 +300,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     // Brazo derecho
     NodoGrafoEscena* hombroDer = new NodoGrafoEscena();
     hombroDer->ponerNombre("Hombro Derecho");
+    hombroDer->ponerIdentificador(identHombroDer);
     hombroDer->agregar(translate(vec3(1.5, 1.5, 0.0))); // Posición del hombro derecho
 
     NodoGrafoEscena* brazoDer = new NodoGrafoEscena();
@@ -310,7 +312,7 @@ MinecraftMuñeco::MinecraftMuñeco() {
     brazoDer->agregar(scale(vec3(0.5, 1.5, 0.5))); // Escala del brazo derecho
     brazoDer->ponerColor({0.5f, 0.0f, 0.0f}); // Rojo oscuro para el brazo derecho
     brazoDer->agregar(MaterialBrazoDer);
-    brazoDer->ponerIdentificador(identBrazoDer);
+    brazoDer->ponerIdentificador(-1);
     brazoDer->agregar(new CuboBrazos());
 
     rotacionBrazoDer = brazoDer->leerPtrMatriz(indiceRotBrazoDer);

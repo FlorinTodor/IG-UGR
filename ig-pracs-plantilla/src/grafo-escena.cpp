@@ -137,7 +137,7 @@ void NodoGrafoEscena::visualizarGL(  )
    //     - si la entrada es de tipo transformación: componer la matriz (con 'compMM')
     for( const auto & entrada : entradas)
       {
-      switch( entrada.tipo )
+      switch(entrada.tipo )
          {
          case TipoEntNGE::objeto : // entrada objeto:
             entrada.objeto->visualizarGL();//llamar recursivamente a visualizarGL

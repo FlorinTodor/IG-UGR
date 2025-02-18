@@ -60,7 +60,7 @@ Ejercicio2::Ejercicio2(int n) {
     col_ver.push_back({0.2f, 0.2f, 0.2f});   // Gris oscuro
 
     // Generar réplicas rotadas
-    for (unsigned i = 0; i < n; ++i) {
+    for (unsigned int i = 0; i < n; ++i) {
         float angle = i * (2.0f * M_PI / n); // Ángulo de rotación
         float cos_angle = cos(angle);
         float sin_angle = sin(angle);

@@ -9,11 +9,16 @@ Peon::Peon(int nperfiles) {
 }
 
 bool Peon::cuandoClick(const glm::vec3 & centro_oc) {
+   
     glm::vec3 currentPos = glm::vec3((*pm_tras)[3]);
     currentPos.z += 0.5f;
     *pm_tras = translate(currentPos);
+    
+    /* EJEMPLO DE PRÁCTICA */
+    //*pm_tras = (*pm_tras) * rotate(glm::radians(15.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotar 15° en Y
     return true;
 }
+
 
 Lata::Lata(const std::string & nombre_arch) {
     NodoGrafoEscena* actual = new NodoGrafoEscena();

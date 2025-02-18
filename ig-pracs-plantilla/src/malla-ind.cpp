@@ -883,3 +883,4 @@ MallaDiscoP4::MallaDiscoP4()
       triangulos.push_back({ i*nj+j, (i+1)*nj+(j+1), (i+1)*nj+j });
    }
 }
+

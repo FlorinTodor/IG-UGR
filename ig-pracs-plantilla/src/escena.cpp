@@ -48,7 +48,7 @@
 #include "grafo-escena.h"  // aquí deberían estar definidas las clases de los muñecos y grafos
 #include "examen-ec-p123.h"
 #include "latapeones.h"
-
+#include "examen-ec-p45.h"
 // -----------------------------------------------------------------------------------------------
 
 Escena::Escena()
@@ -339,18 +339,18 @@ Escena1::Escena1()
    using namespace std ;
    cout << "Creando objetos de la práctica 1." << endl ;
 
-
-  // objetos.push_back( new Cubo() );
-  // objetos.push_back( new CuboColores() );
-   //objetos.push_back( new Tetraedro() );
-  // objetos.push_back( new EstrellaZ(8));
-   //objetos.push_back( new CasaX());
-   //objetos.push_back( new MallaTriangulo());
-  // objetos.push_back( new MallaCuadrado());
-   //objetos.push_back( new MallaPiramideL());
+   /*
+   objetos.push_back( new Cubo() );
+   objetos.push_back( new CuboColores() );
+   objetos.push_back( new Tetraedro() );
+   objetos.push_back( new EstrellaZ(8));
+   objetos.push_back( new CasaX());
+   objetos.push_back( new MallaTriangulo());
+   objetos.push_back( new MallaCuadrado());
+   objetos.push_back( new MallaPiramideL()); */
 
    /* Objetos primer parcial*/
-   objetos.push_back(new Ejercicio1());
+  // objetos.push_back(new Ejercicio1());
   
 
   
@@ -364,9 +364,10 @@ Escena2::Escena2()
    cout << "Creando objetos de la práctica 2." << endl ;
 
    /* Objetos primer parcial*/
-   objetos.push_back(new Ejercicio2(8));
+   //objetos.push_back(new Ejercicio2(8));
 
    /*
+   
    objetos.push_back( new Cilindro( 2, 16 ) );
    objetos.push_back( new Cono( 2, 16 ) );
    objetos.push_back( new Esfera( 25,200 ) );
@@ -379,8 +380,8 @@ Escena2::Escena2()
    objetos.push_back(new MallaPLY("big_dodge.ply"));
    objetos.push_back(new MallaRevolPLY("peon.ply", 50));
    objetos.push_back(new MallaPLY("f16.ply")); //pruebas de  otros ply
-   */
    
+   */
 }
 
 
@@ -389,12 +390,12 @@ Escena3::Escena3()
 {
    using namespace std ;
    cout << "Creando objetos de la práctica 3." << endl ;
-   
+   /*
   objetos.push_back( new MinecraftMuñeco());   
-   /*objetos.push_back( new AmongUsMuñeco());
+   //objetos.push_back( new AmongUsMuñeco());
    //objetos.push_back( new HelicopteroCompleto());
    objetos.push_back ( new GrafoEstrellaX(8));
-   objetos.push_back ( new GrafoCubos());*/
+   objetos.push_back ( new GrafoCubos()); */
 
    /* Objetos primer parcial*/
    //objetos.push_back( new Ejercicio3(5,0.2));
@@ -422,11 +423,13 @@ Escena4::Escena4(){
 
    using namespace std ;
    cout << "Creando objetos de la práctica 4." << endl ;
-   objetos.push_back(new LataPeones());
-   objetos.push_back(new NodoCubo24());
-   objetos.push_back(new NodoDiscoP4());
-   objetos.push_back(new NodoBeethovenMadera(true));
-   objetos.push_back(new NodoBeethovenMadera(false));
+  // objetos.push_back(new LataPeones());
+   //objetos.push_back(new NodoCubo24());
+   //objetos.push_back(new NodoDiscoP4());
+   //objetos.push_back(new NodoBeethovenMadera(true));
+   //objetos.push_back(new NodoBeethovenMadera(false));
+
+   objetos.push_back( new NodoPiramide());
 }
 
 Escena5::Escena5()
@@ -434,5 +437,10 @@ Escena5::Escena5()
     using namespace std;
    cout << "Creando objetos de la práctica 5" << endl;
 
-   objetos.push_back(new VariasLatasPeones());
+   //objetos.push_back(new VariasLatasPeones());
+
+glm::vec3 v1(0.0f, 1.0f, 0.0f), v2(-1.0f, -1.0f, 0.0f), v3(1.0f, -1.0f, 0.0f);
+   objetos.push_back(new Triangulo(v1,v2,v3 ));
+ 
+    
 }

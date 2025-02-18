@@ -137,11 +137,13 @@ CuboCuerpo::CuboCuerpo() {
       
       
   cc_tt_ver = {
-      {0.0, 1.0-0.0},
-      {0.0, 1.0-1.0},
-      {1.0, 1.0-1.0},
-      {1.0, 1.0-0.0},
-
+    // Cara frontal
+      {0.0, 1.0-0.0}, //Esquina superior izquierda
+      {0.0, 1.0-1.0}, //Esquina inferior izquierda
+      {1.0, 1.0-1.0}, //ESquina inferior derecha
+      {1.0, 1.0-0.0}, //Esquina superior derecha
+    
+    // Cara Trasera
       {0.0, 1.0-0.0},
       {0.0, 1.0-1.0},
       {1.0, 1.0-1.0},

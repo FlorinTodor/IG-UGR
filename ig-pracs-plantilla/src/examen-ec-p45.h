@@ -1,5 +1,4 @@
-// Nombre: Florin Emanuel Apellidos: Todor Gliga Titulación: GIADE
-// email: flotodor@correo.ugr.es, DNI o pasaporte: 74049463C
+
 
 
 #ifndef EXAMEN_EC_P45_HPP

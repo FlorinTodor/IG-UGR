@@ -44,8 +44,8 @@ El objetivo ha sido implementar de forma incremental distintas funcionalidades: 
 - **Lenguaje**: C++
 - **API gráfica**: OpenGL, GLUT/FreeGLUT
 - **Bibliotecas**: GLM (matemáticas 3D), SOIL/stb_image (carga de texturas)
-- **IDE**: Code::Blocks / Visual Studio Code
-- **Sistema**: Linux y/o Windows
+- **IDE**: Visual Studio Code
+- **Sistema**: Linux y/o Windows (preferiblemente linux)
 
 ---
 
